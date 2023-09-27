@@ -50,12 +50,12 @@ class ExceptionHandler {
             HttpStatus.BAD_REQUEST
         )
 
-    @ExceptionHandler(FeignClientException::class)
-    protected fun handleFeignClientException(e: FeignClientException): ResponseEntity<*> {
-        e.printStackTrace()
-        return ResponseEntity(
-            ErrorResponse(HttpStatus.BAD_REQUEST, "something wrong in oauth"),
-            HttpStatus.BAD_REQUEST
-        )
-    }
+//    @ExceptionHandler(FeignClientException::class)
+//    protected fun handleFeignClientException(e: FeignClientException): ResponseEntity<*> {
+//        e.printStackTrace()
+//        return ResponseEntity(
+//            ErrorResponse(HttpStatus.BAD_REQUEST, "something wrong in oauth"),
+//            HttpStatus.BAD_REQUEST
+//        )
+//    }
 }
