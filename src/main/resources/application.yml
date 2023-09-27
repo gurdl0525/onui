@@ -1,0 +1,65 @@
+spring:
+
+  security:
+    oauth2:
+      client:
+        google:
+          client-id: ${GOOGLE_CLIENT}
+          client-secret: ${GOOGLE_SECRET}
+          scope:
+            - email
+            - profile
+  # format
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+  # jdbc
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    database: 1
+
+  # jpa
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+    open-in-view: false
+
+# server
+server:
+  port: ${SERVER_PORT:8080}
+  tomcat:
+    connection-timeout: -1
+
+# logging
+logging:
+  level:
+    root: info
+
+oauth:
+  apple:
+    iss: https://appleid.apple.com
+    client-id: ${OAUTH_APPLE_CLIENT_ID}
+    nonce: ${OAUTH_APPLE_NONCE}
+
+  google:
+    base-url: ${GOOGLE_BASE_URL}
+    client-id: ${GOOGLE_CLIENT}
+    client-secret: ${GOOGLE_SECRET}
+    redirect-url: ${GOOGLE_REDIRECT_URL}
+
+jwt:
+  secret-key: ${JWT_SECRET}
+  access-exp: ${ACCESS_EXP}
+  refresh-exp: ${REFRESH_EXP}
