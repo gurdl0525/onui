@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 
-@FeignClient(name = "GoogleInfoClient", url = "https://www.googleapis.com/oauth2/v1/userinfo")
+@FeignClient(name = "GoogleInfoClient", url = "https://www.googleapis.com/oauth2/v3/userinfo")
 interface GoogleInfoClient {
 
     @GetMapping
