@@ -13,6 +13,7 @@ import com.example.onui.infra.feign.google.env.GoogleProperty
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.Date
 
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +31,7 @@ class GoogleAuthServiceImpl(
         const val GOOGLE_URL = "%s" +
                 "?client_id=%s" +
                 "&redirect_uri=%s" +
-                "&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+                "&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile"
         const val ALT = "json"
         const val GRANT_TYPE = "authorization_code"
     }
@@ -54,32 +55,20 @@ class GoogleAuthServiceImpl(
             GRANT_TYPE
         ).accessToken
 
-        try {
+        val response = googleInfo.googleInfo(ALT, accessToken)
 
-            val response = googleInfo.googleInfo(ALT, accessToken)
-            val email = response.email
-
-            refreshTokenRepository.findByEmail(email)?.let {
-                refreshTokenRepository.delete(it)
-            }
-
-            val (access, refresh) = tokenProvider.receiveToken(email)
-
-            userRepository.findByEmail(email)
-                ?: userRepository.save(User(
-                    email = email,
-                    name = "absdsa"
-                ))
-
-            return TokenResponse(
-                access,
-                LocalDateTime.now().plusSeconds(tokenProperty.accessExp / 1000),
-                refresh,
-                LocalDateTime.now().plusSeconds(tokenProperty.refreshExp / 1000)
-            )
-        }catch (e: Exception) {
-            e.printStackTrace()
-            throw e
+        refreshTokenRepository.findByEmail(response.email)?.let {
+            refreshTokenRepository.delete(it)
         }
+
+        val tokenResponse = tokenProvider.receiveToken(response.email)
+
+        userRepository.findByEmail(response.email)
+            ?: userRepository.save(User(
+                email = response.email,
+                name = response.name,
+            ))
+
+        return tokenResponse
     }
 }
