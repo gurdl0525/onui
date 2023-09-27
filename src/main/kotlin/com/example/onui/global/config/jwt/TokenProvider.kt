@@ -15,6 +15,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.*
 
 @Component
@@ -24,21 +25,20 @@ class TokenProvider(
     private val authDetailsService: AuthDetailsService
 ) {
 
-    private fun generateAccessToken(sub: String): String {
-        return Jwts.builder()
+    private fun generateAccessToken(sub: String): String =
+        Jwts.builder()
             .signWith(SignatureAlgorithm.HS256, property.secretKey)
             .setSubject(sub)
             .setIssuedAt(Date())
-            .setExpiration(Date(Date().time + property.accessExp))
+            .setExpiration(Date(Date().time.plus(property.accessExp)))
             .compact()
-    }
 
     private fun generateRefreshToken(sub: String): String {
 
         val rfToken = Jwts.builder()
             .signWith(SignatureAlgorithm.HS256, property.secretKey)
             .setIssuedAt(Date())
-            .setExpiration(Date(Date().time + property.refreshExp))
+            .setExpiration(Date(Date().time.plus(property.refreshExp)))
             .compact()
 
         refreshTokenRepository.save(RefreshToken(rfToken, sub))
@@ -46,16 +46,23 @@ class TokenProvider(
         return rfToken
     }
 
-    fun receiveToken(sub: String) = Pair(
+    fun receiveToken(sub: String) = TokenResponse (
         generateAccessToken(sub),
-        generateRefreshToken(sub)
+        getExp(property.accessExp),
+        generateRefreshToken(sub),
+        getExp(property.refreshExp)
     )
 
+    private fun getExp(exp: Long) = LocalDateTime.now().withNano(0).plusSeconds(exp / 1000)
+
     private fun getSubject(token: String): String {
+
+        val body = Jwts.parser()
+            .setSigningKey(property.secretKey)
+            .parseClaimsJws(token).body
+
         return try {
-            Jwts.parser()
-                .setSigningKey(property.secretKey)
-                .parseClaimsJws(token).body.subject
+            body.subject
         } catch (e: Exception) {
             when (e) {
                 is ExpiredJwtException -> throw ExpiredTokenException
@@ -73,7 +80,7 @@ class TokenProvider(
         return UsernamePasswordAuthenticationToken(authDetails, "", authDetails.authorities)
     }
 
-    fun reissue(token: String): Pair<String, String> {
+    fun reissue(token: String): TokenResponse {
         
         val sub = (refreshTokenRepository.findByIdOrNull(token) ?: throw InvalidTokenException)
             .let {
