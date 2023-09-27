@@ -51,9 +51,6 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     compileOnly("io.github.openfeign:feign-httpclient")
 
-    // json
-    implementation("org.json:json:20230227")
-
     // firebase
     implementation("com.google.firebase:firebase-admin:9.2.0")
 
@@ -65,8 +62,6 @@ dependencies {
 
     // cloud
     implementation("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
-
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 }
 
 dependencyManagement {
