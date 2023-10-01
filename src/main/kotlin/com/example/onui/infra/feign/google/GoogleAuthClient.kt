@@ -1,12 +1,13 @@
 package com.example.onui.infra.feign.google
 
+import com.example.onui.global.config.feign.FeignConfig
 import com.example.onui.infra.feign.google.dto.OAuthTokenResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 
-@FeignClient(name = "GoogleAuthClient", url = "https://oauth2.googleapis.com/token")
+@FeignClient(name = "GoogleAuthClient", url = "https://oauth2.googleapis.com/token", configuration = [FeignConfig::class])
 interface GoogleAuthClient {
 
     @PostMapping(headers = ["Content-Length=0"])
