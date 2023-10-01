@@ -6,14 +6,11 @@ import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.UserRepository
 import com.example.onui.global.config.jwt.TokenProvider
-import com.example.onui.global.config.jwt.env.TokenProperty
 import com.example.onui.infra.feign.google.GoogleAuthClient
 import com.example.onui.infra.feign.google.GoogleInfoClient
 import com.example.onui.infra.feign.google.env.GoogleProperty
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
-import java.util.Date
 
 @Service
 @Transactional(readOnly = true)
@@ -23,7 +20,6 @@ class GoogleAuthServiceImpl(
     private val googleProperty: GoogleProperty,
     private val userRepository: UserRepository,
     private val tokenProvider: TokenProvider,
-    private val tokenProperty: TokenProperty,
     private val refreshTokenRepository: RefreshTokenRepository
 ): GoogleAuthService {
 
@@ -45,7 +41,7 @@ class GoogleAuthServiceImpl(
     )
 
     @Transactional
-    override fun oauthSignIn(code: String): TokenResponse {
+    override fun oauthGoogleSignIn(code: String): TokenResponse {
 
         val accessToken = googleAuth.googleAuth(
             code,
