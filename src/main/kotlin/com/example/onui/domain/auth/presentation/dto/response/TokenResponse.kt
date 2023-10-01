@@ -6,5 +6,5 @@ data class TokenResponse(
     val accessToken: String,
     val accessExpiredAt: LocalDateTime,
     val refreshToken: String,
-    val refreshExpiredAt: LocalDateTime,
+    val refreshExpiredAt: LocalDateTime
 )
