@@ -7,5 +7,5 @@ interface GoogleAuthService {
 
     fun getGoogleLoginLink(): OauthLinkResponse
 
-    fun oauthSignIn(code: String): TokenResponse
+    fun oauthGoogleSignIn(code: String): TokenResponse
 }
