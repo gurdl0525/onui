@@ -20,11 +20,11 @@ class AuthController(
     @GetMapping("/google/link")
     fun getGoogleClientId(): OauthLinkResponse = googleAuthService.getGoogleLoginLink()
 
-    @GetMapping("/oauth/token")
+    @GetMapping("/oauth/google/token")
     fun oauthSignIn(
         @RequestParam(name = "code", required = true)
         code: String
-    ): TokenResponse = googleAuthService.oauthSignIn(code)
+    ): TokenResponse = googleAuthService.oauthGoogleSignIn(code)
 
     @PutMapping("/token")
     fun reissue(
