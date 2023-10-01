@@ -49,9 +49,9 @@ logging:
 
 oauth:
   apple:
-    iss: https://appleid.apple.com
-    client-id: ${OAUTH_APPLE_CLIENT_ID}
-    nonce: ${OAUTH_APPLE_NONCE}
+    iss: ${APPLE_BASE_URL}
+    client-id: ${APPLE_CLIENT_ID}
+    nonce: ${APPLE_NONCE}
 
   google:
     base-url: ${GOOGLE_BASE_URL}
