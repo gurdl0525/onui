@@ -4,6 +4,7 @@ import com.example.onui.domain.auth.presentation.dto.response.OauthLinkResponse
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.domain.user.entity.User
+import com.example.onui.domain.user.entity.type.UserType
 import com.example.onui.domain.user.repository.UserRepository
 import com.example.onui.global.config.jwt.TokenProvider
 import com.example.onui.infra.feign.google.GoogleAuthClient
@@ -61,8 +62,9 @@ class GoogleAuthServiceImpl(
 
         userRepository.findByEmail(response.email)
             ?: userRepository.save(User(
-                email = response.email,
-                name = response.name,
+                response.email,
+                response.name,
+                UserType.GOOGLE
             ))
 
         return tokenResponse
