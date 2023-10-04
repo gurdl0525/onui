@@ -1,5 +1,8 @@
 package com.example.onui.domain.user.entity
 
+import com.example.onui.domain.diary.entity.Diary
+import com.example.onui.domain.user.entity.type.UserType
+import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import org.hibernate.annotations.DynamicUpdate
 import java.util.*
 import javax.persistence.*
@@ -7,9 +10,10 @@ import javax.persistence.*
 @Entity(name = "user")
 @DynamicUpdate
 class User(
-    id: UUID? = null,
     email: String,
-    name: String
+    name: String,
+    type: UserType,
+    id: UUID? = null
 ) {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,4 +27,17 @@ class User(
 
     @Column(name = "name", nullable = false)
     var name: String = name
+        protected set
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE])
+    var diaryList: MutableList<Diary> = arrayListOf()
+
+    @Enumerated(EnumType.STRING)
+    var type: UserType = type
+        protected set
+
+    fun toResponse() = UserProfileResponse(
+        this.email,
+        this.name
+    )
 }
