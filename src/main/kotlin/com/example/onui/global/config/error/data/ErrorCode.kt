@@ -9,6 +9,7 @@ enum class ErrorCode(
 
     // 400
     FEIGN_CLIENT(HttpStatus.BAD_REQUEST, "Feign Client 오류"),
+    ALREADY_WROTE_DIARY(HttpStatus.BAD_REQUEST, "이미 감정을 기록하셨습니다."),
 
     // 401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
@@ -16,6 +17,9 @@ enum class ErrorCode(
 
     // 403
     PERMISSION_DENIED(HttpStatus.FORBIDDEN, "권한이 거부 되었습니다."),
+
+    // 404
+    DIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "감정 기록을 찾을 수 없습니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러")
