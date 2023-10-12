@@ -1,6 +1,7 @@
 ﻿package com.example.onui.domain.diary.presentation
 
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
+import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryListResponse
 import com.example.onui.domain.diary.service.DiaryService
@@ -46,4 +47,10 @@ class DiaryController(
         @RequestParam("id", required = true)
         id: UUID
     ): DiaryDetailResponse = diaryService.getDetailById(id)
+
+    @PostMapping
+    fun updateDiary(
+        @RequestBody @Valid
+        req: UpdateDiaryRequest
+    ) : DiaryDetailResponse = diaryService.update(req)
 }
