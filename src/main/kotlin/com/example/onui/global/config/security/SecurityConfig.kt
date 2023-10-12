@@ -38,8 +38,8 @@ class SecurityConfig(
             .and()
             .authorizeRequests()
 
-            .antMatchers("/**").permitAll()
-            .anyRequest().permitAll()
+            .antMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated()
             .and()
 
             .apply(FilterConfig(tokenProvider, tokenResolver, exceptionHandlerFilter))

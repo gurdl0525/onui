@@ -1,4 +1,12 @@
 spring:
+
+  # servlet
+  servlet:
+    multipart:
+      enabled: true # 멀티파트 업로드 지원여부 (default: true)
+      file-size-threshold: 0B # 파일을 디스크에 저장하지 않고 메모리에 저장하는 최소 크기 (default: 0B)
+      max-file-size: 100MB # 한개 파일의 최대 사이즈 (default: 1MB)
+      max-request-size: 100MB # 한개 요청의 최대 사이즈 (default: 10MB)
   
   # format
   jackson:
@@ -11,6 +19,7 @@ spring:
     password: ${DB_PASSWORD}
     url: ${DB_URL}
 
+  # data redis
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
@@ -38,6 +47,7 @@ logging:
   level:
     root: info
 
+# oauth
 oauth:
   apple:
     iss: ${APPLE_BASE_URL}
@@ -50,7 +60,17 @@ oauth:
     client-secret: ${GOOGLE_SECRET}
     redirect-url: ${GOOGLE_REDIRECT_URL}
 
+# jwt
 jwt:
   secret-key: ${JWT_SECRET}
   access-exp: ${ACCESS_EXP}
   refresh-exp: ${REFRESH_EXP}
+
+cloud:
+  aws:
+    s3:
+      bucket: ${BUCKET}
+      dir: ${DIRECTORY}
+      accessKey: ${IAM_ACCESS}
+      secretKey: ${IAM_SECRET}
+      region: ap-northeast-2
