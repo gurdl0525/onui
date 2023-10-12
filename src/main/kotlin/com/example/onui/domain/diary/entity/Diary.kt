@@ -4,7 +4,6 @@ import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryResponse
 import com.example.onui.domain.user.entity.User
 import com.example.onui.global.common.entity.BaseTimeEntity
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
@@ -18,6 +17,7 @@ Diary(
     mood: Int,
     tag: MutableList<String>,
     createdAt: LocalDateTime,
+    image: String? = null,
     id: UUID? = null
 ): BaseTimeEntity(createdAt) {
 
@@ -46,6 +46,10 @@ Diary(
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "diary_tag", joinColumns = [JoinColumn(name= "diary_id", referencedColumnName = "id")])
     var tag: MutableList<String> = tag
+        protected set
+
+    @Column(name = "image", nullable = true)
+    var image: String? = image
         protected set
 
     fun toResponse() = DiaryResponse(
