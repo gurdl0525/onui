@@ -9,5 +9,6 @@ data class DiaryDetailResponse(
     val content: String,
     val mood: Int,
     val tag: MutableList<String>,
-    val createdAt: LocalDate
+    val createdAt: LocalDate,
+    val image: String?
 )

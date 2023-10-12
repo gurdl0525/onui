@@ -64,6 +64,7 @@ Diary(
         this.content,
         this.mood,
         this.tag,
-        this.createdAt.toLocalDate()
+        this.createdAt.toLocalDate(),
+        this.image
     )
 }
