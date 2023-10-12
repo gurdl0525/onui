@@ -4,12 +4,12 @@ import com.example.onui.domain.auth.presentation.dto.response.OauthLinkResponse
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.domain.user.entity.User
-import com.example.onui.domain.user.entity.type.UserType
 import com.example.onui.domain.user.repository.UserRepository
 import com.example.onui.global.config.jwt.TokenProvider
 import com.example.onui.infra.feign.google.GoogleAuthClient
 import com.example.onui.infra.feign.google.GoogleInfoClient
 import com.example.onui.infra.feign.google.env.GoogleProperty
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,6 +31,7 @@ class GoogleAuthServiceImpl(
                 "&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile"
         const val ALT = "json"
         const val GRANT_TYPE = "authorization_code"
+        val logger = KotlinLogging.logger{}
     }
 
     override fun getGoogleLoginLink() = OauthLinkResponse(
@@ -52,19 +53,20 @@ class GoogleAuthServiceImpl(
             GRANT_TYPE
         ).accessToken
 
+        logger.info { accessToken }
+
         val response = googleInfo.googleInfo(ALT, accessToken)
 
-        refreshTokenRepository.findByEmail(response.email)?.let {
+        refreshTokenRepository.findBySub(response.sub)?.let {
             refreshTokenRepository.delete(it)
         }
 
-        val tokenResponse = tokenProvider.receiveToken(response.email)
+        val tokenResponse = tokenProvider.receiveToken(response.sub)
 
-        userRepository.findByEmail(response.email)
+        userRepository.findBySub(response.sub)
             ?: userRepository.save(User(
-                response.email,
-                response.name,
-                UserType.GOOGLE
+                response.sub,
+                response.name
             ))
 
         return tokenResponse
