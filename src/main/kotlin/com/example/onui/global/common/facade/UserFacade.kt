@@ -11,6 +11,6 @@ class UserFacade(
     private val userRepository: UserRepository
 ) {
 
-    fun getCurrentUser(): User = userRepository.findByEmail(SecurityContextHolder.getContext().authentication.name)
+    fun getCurrentUser(): User = userRepository.findBySub(SecurityContextHolder.getContext().authentication.name)
         ?: throw InvalidTokenException
 }
