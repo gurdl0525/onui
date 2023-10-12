@@ -62,6 +62,9 @@ dependencies {
 
     // cloud
     implementation("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
+
+    // s3
+    implementation("com.amazonaws:aws-java-sdk-s3:1.12.232")
 }
 
 dependencyManagement {
