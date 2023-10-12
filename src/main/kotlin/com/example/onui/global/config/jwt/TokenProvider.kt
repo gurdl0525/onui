@@ -55,21 +55,16 @@ class TokenProvider(
 
     private fun getExp(exp: Long) = LocalDateTime.now().withNano(0).plusSeconds(exp / 1000)
 
-    private fun getSubject(token: String): String {
-
-        val body = Jwts.parser()
-            .setSigningKey(property.secretKey)
-            .parseClaimsJws(token).body
-
-        return try {
-            body.subject
+    private fun getSubject(token: String) = try {
+            Jwts.parser()
+                .setSigningKey(property.secretKey)
+                .parseClaimsJws(token).body.subject
         } catch (e: Exception) {
             when (e) {
                 is ExpiredJwtException -> throw ExpiredTokenException
                 else -> throw InvalidTokenException
             }
         }
-    }
 
     fun getAuthentication(token: String): Authentication {
 
@@ -85,7 +80,7 @@ class TokenProvider(
         val sub = (refreshTokenRepository.findByIdOrNull(token) ?: throw InvalidTokenException)
             .let {
                 refreshTokenRepository.delete(it)
-                return@let it.email
+                return@let it.sub
             }
 
         return receiveToken(sub)
