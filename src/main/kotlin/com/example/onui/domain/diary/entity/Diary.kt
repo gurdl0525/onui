@@ -5,24 +5,19 @@ import com.example.onui.domain.diary.presentation.response.DiaryResponse
 import com.example.onui.domain.user.entity.User
 import com.example.onui.global.common.entity.BaseTimeEntity
 import java.time.LocalDate
-import java.util.UUID
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
+import java.time.LocalDateTime
+import java.util.*
+import javax.persistence.*
 
 @Entity(name = "diary")
 class
 Diary(
     user: User,
-    text: String?,
+    title: String,
+    content: String,
     mood: Int,
-    createdAt: LocalDate,
+    tag: MutableList<String>,
+    createdAt: LocalDateTime,
     id: UUID? = null
 ): BaseTimeEntity(createdAt) {
 
@@ -36,26 +31,35 @@ Diary(
     var user: User = user
         protected set
 
-    @Column(name = "text")
-    var text: String? = text
+    @Column(name = "title", length = 30, nullable = false)
+    var title: String= title
         protected set
 
-    @Min(1, message = "mood는 1부터 입니다.")
-    @Max(5, message = "mood는 5부터 입니다.")
+    @Column(name = "content", length = 1500, nullable = false)
+    var content: String = content
+        protected set
+
     @Column(name = "mood", nullable = false)
     var mood: Int = mood
+        protected set
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "diary_tag", joinColumns = [JoinColumn(name= "diary_id", referencedColumnName = "id")])
+    var tag: MutableList<String> = tag
         protected set
 
     fun toResponse() = DiaryResponse(
         this.id!!,
         this.mood,
-        LocalDate.of(this.year, this.month, this.day)
+        this.createdAt.toLocalDate()
     )
 
     fun toDetailResponse() = DiaryDetailResponse(
         this.id!!,
-        this.text,
+        this.title,
+        this.content,
         this.mood,
-        LocalDate.of(this.year, this.month, this.day)
+        this.tag,
+        this.createdAt.toLocalDate()
     )
 }
