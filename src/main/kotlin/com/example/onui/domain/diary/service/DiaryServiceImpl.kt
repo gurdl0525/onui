@@ -40,7 +40,8 @@ class DiaryServiceImpl(
             req.content!!,
             req.mood!!,
             req.tagList!!,
-            now
+            now,
+            req.image
         ))
 
         user.diaryList.add(diary)
