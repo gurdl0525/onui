@@ -20,9 +20,8 @@ class UserServiceImpl(
         val user = userFacade.getCurrentUser()
 
         return userRepository.save(User(
-            user.email,
+            user.sub,
             name,
-            user.type,
             user.id
         )).toResponse()
     }
