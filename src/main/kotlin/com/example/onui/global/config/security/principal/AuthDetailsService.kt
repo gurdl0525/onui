@@ -12,5 +12,5 @@ class AuthDetailsService(
 ) : UserDetailsService {
 
     override fun loadUserByUsername(email: String): UserDetails =
-        AuthDetails(userRepository.findByEmail(email) ?: throw InvalidTokenException)
+        AuthDetails(userRepository.findBySub(email) ?: throw InvalidTokenException)
 }
