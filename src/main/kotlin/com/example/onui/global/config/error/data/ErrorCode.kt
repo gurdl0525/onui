@@ -10,6 +10,7 @@ enum class ErrorCode(
     // 400
     FEIGN_CLIENT(HttpStatus.BAD_REQUEST, "Feign Client 오류"),
     ALREADY_WROTE_DIARY(HttpStatus.BAD_REQUEST, "이미 감정을 기록하셨습니다."),
+    ALREADY_POSTED_TIMELINE(HttpStatus.BAD_REQUEST, "이미 타임라인을 업로드하셨습니다."),
 
     // 401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
