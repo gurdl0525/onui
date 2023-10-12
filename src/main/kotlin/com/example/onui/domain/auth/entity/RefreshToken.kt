@@ -11,5 +11,5 @@ data class RefreshToken (
     var token: String,
 
     @Indexed
-    var email: String
+    var sub: String
 )
