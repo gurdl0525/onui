@@ -64,13 +64,25 @@ class DiaryServiceImpl(
         return diary.toDetailResponse()
     }
 
+    @Transactional
     override fun update(req: UpdateDiaryRequest): DiaryDetailResponse {
         val user = userFacade.getCurrentUser()
 
-        val diary = diaryRepository.findByIdOrNull(req.id)
+        var diary = diaryRepository.findByIdOrNull(req.id)
             ?: throw DiaryNotFoundException
 
         if(diary.user != user) throw PermissionDeniedException
+
+        diary = diaryRepository.save(Diary(
+            diary.user,
+            req.title!!,
+            req.content!!,
+            req.mood!!,
+            req.tagList!!,
+            diary.createdAt,
+            req.image,
+            diary.id
+        ))
 
         timelineRepository.findByIdOrNull(diary.id)
             ?.run {
@@ -78,7 +90,7 @@ class DiaryServiceImpl(
                     diary,
                     diary.createdAt,
                     id,
-                    true
+                    true,
                 ))
             }
 
