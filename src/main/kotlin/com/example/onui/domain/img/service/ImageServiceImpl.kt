@@ -12,6 +12,7 @@ import com.example.onui.global.config.s3.env.S3Property
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayInputStream
+import java.util.Base64
 import java.util.UUID
 
 @Service
@@ -47,7 +48,7 @@ class ImageServiceImpl(
             throw InvalidFileExtensionException
         }
 
-        fileName = s3Property.dir + "$sub/" + fileName
+        fileName = "${s3Property.dir}$sub/${UUID.randomUUID()}$fileName"
 
         val putObjectRequest = PutObjectRequest(
             s3Property.bucket,

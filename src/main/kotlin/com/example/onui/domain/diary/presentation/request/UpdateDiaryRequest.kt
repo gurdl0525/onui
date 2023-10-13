@@ -25,5 +25,7 @@ data class UpdateDiaryRequest(
 
     @field:NotEmpty
     @field:NotNull
-    val tagList: MutableList<String>?
+    val tagList: MutableList<String>?,
+
+    val image: String?
 )
