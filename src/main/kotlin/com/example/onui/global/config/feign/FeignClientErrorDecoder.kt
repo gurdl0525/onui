@@ -11,7 +11,6 @@ import mu.KotlinLogging
 
 class FeignClientErrorDecoder: ErrorDecoder {
 
-
     private companion object{
         val logger = KotlinLogging.logger{}
     }
