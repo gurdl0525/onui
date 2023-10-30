@@ -53,8 +53,6 @@ class GoogleAuthServiceImpl(
             GRANT_TYPE
         ).accessToken
 
-        logger.info { accessToken }
-
         val response = googleInfo.googleInfo(ALT, accessToken)
 
         refreshTokenRepository.findBySub(response.sub)?.let {
