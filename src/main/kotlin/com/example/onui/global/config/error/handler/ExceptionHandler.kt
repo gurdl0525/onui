@@ -3,7 +3,6 @@ package com.example.onui.global.config.error.handler
 import com.example.onui.global.config.error.data.BindErrorResponse
 import com.example.onui.global.config.error.data.ErrorResponse
 import com.example.onui.global.config.error.exception.BusinessException
-import feign.FeignException.FeignClientException
 import org.springframework.core.convert.ConversionFailedException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,6 +11,7 @@ import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.multipart.MultipartException
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
@@ -50,12 +50,12 @@ class ExceptionHandler {
             HttpStatus.BAD_REQUEST
         )
 
-//    @ExceptionHandler(FeignClientException::class)
-//    protected fun handleFeignClientException(e: FeignClientException): ResponseEntity<*> {
-//        e.printStackTrace()
-//        return ResponseEntity(
-//            ErrorResponse(HttpStatus.BAD_REQUEST, "something wrong in oauth"),
-//            HttpStatus.BAD_REQUEST
-//        )
-//    }
+    @ExceptionHandler(MultipartException::class)
+    protected fun handleMultipartException(e: MultipartException): ResponseEntity<*> {
+        e.printStackTrace()
+        return ResponseEntity(
+            ErrorResponse(HttpStatus.BAD_REQUEST, "잘못된 파일 전송입니다."),
+            HttpStatus.BAD_REQUEST
+        )
+    }
 }
