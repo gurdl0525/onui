@@ -49,7 +49,7 @@ dependencies {
 
     // feign client
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-    compileOnly("io.github.openfeign:feign-httpclient")
+    implementation("io.github.openfeign:feign-httpclient")
 
     // firebase
     implementation("com.google.firebase:firebase-admin:9.2.0")
