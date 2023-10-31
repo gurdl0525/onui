@@ -14,7 +14,7 @@ Diary(
     user: User,
     title: String,
     content: String,
-    mood: Int,
+    mood: Mood,
     tag: MutableList<String>,
     createdAt: LocalDateTime,
     image: String? = null,
@@ -40,7 +40,8 @@ Diary(
         protected set
 
     @Column(name = "mood", nullable = false)
-    var mood: Int = mood
+    @Enumerated(EnumType.STRING)
+    var mood: Mood = mood
         protected set
 
     @ElementCollection(fetch = FetchType.EAGER)

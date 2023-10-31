@@ -39,6 +39,7 @@ class Timeline(
         this.diary.content,
         this.diary.mood,
         this.diary.tag,
+        this.diary.image,
         this.dayOfWeek,
         this.diary.createdAt,
         this.isUpdated

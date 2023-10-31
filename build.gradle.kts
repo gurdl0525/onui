@@ -3,9 +3,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.16-SNAPSHOT"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
+    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+    kotlin("kapt") version "1.8.22"
 }
 
 group = "com.example"
@@ -13,6 +15,16 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
+}
+
+sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+    kotlin.srcDir("$buildDir/generated/source/kapt/main")
+}
+
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
 }
 
 repositories {
@@ -62,6 +74,10 @@ dependencies {
 
     // cloud
     implementation("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
+
+    // query dsl
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
     // s3
     implementation("com.amazonaws:aws-java-sdk-s3:1.12.232")

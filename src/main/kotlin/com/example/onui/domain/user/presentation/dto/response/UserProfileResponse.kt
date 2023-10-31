@@ -2,7 +2,7 @@
 
 data class UserProfileResponse (
 
-    val email: String,
+    val sub: String,
 
     val name: String
 )

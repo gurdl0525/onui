@@ -1,8 +1,7 @@
 ﻿package com.example.onui.domain.diary.presentation.request
 
-import java.util.UUID
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
+import com.example.onui.domain.diary.entity.Mood
+import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
@@ -19,9 +18,7 @@ data class UpdateDiaryRequest(
     val content: String?,
 
     @field:NotNull(message = "null일 수 없습니다.")
-    @field:Min(1, message = "1보다 작을 수 없습니다.")
-    @field:Max(5, message = "5보다 클 수 없습니다.")
-    val mood: Int?,
+    val mood: Mood?,
 
     @field:NotEmpty
     @field:NotNull
