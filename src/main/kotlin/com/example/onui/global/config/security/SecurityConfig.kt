@@ -38,6 +38,7 @@ class SecurityConfig(
             .and()
             .authorizeRequests()
 
+            .antMatchers("/**/test").permitAll()
             .antMatchers("/auth/**").permitAll()
             .anyRequest().authenticated()
             .and()
