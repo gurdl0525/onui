@@ -1,7 +1,7 @@
 ﻿package com.example.onui.domain.diary.entity
 
 enum class Mood(
-    coast: Int
+    val coast: Int
 ) {
     WORST(-10),
     BAD(-5),
