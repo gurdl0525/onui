@@ -1,8 +1,8 @@
 package com.example.onui.domain.auth.presentation
 
 import com.example.onui.domain.auth.presentation.dto.request.ReissueRequest
-import com.example.onui.domain.auth.presentation.dto.response.OauthLinkResponse
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
+import com.example.onui.domain.auth.service.AppleAuthService
 import com.example.onui.domain.auth.service.AuthService
 import com.example.onui.domain.auth.service.GoogleAuthService
 import org.springframework.validation.annotation.Validated
@@ -14,21 +14,28 @@ import javax.validation.Valid
 @RequestMapping("/auth")
 class AuthController(
     private val googleAuthService: GoogleAuthService,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val appleAuthService: AppleAuthService
 ) {
-
-    @GetMapping("/google/link")
-    fun getGoogleClientId(): OauthLinkResponse = googleAuthService.getGoogleLoginLink()
 
     @GetMapping("/oauth/google/token")
     fun oauthSignIn(
-        @RequestParam(name = "code", required = true)
-        code: String
-    ): TokenResponse = googleAuthService.oauthGoogleSignIn(code)
+        @RequestParam(name = "token", required = true)
+        token: String
+    ): TokenResponse = googleAuthService.oauthGoogleSignIn(token)
 
     @PutMapping("/token")
     fun reissue(
         @RequestBody @Valid
         req: ReissueRequest
     ): TokenResponse = authService.reissue(req.refreshToken!!)
+
+    @PostMapping("/oauth/apple/token")
+    fun oauthSignInWithApple(
+        @RequestParam(name = "code", required = true)
+        code: String
+    ) = appleAuthService.signUp(code)
+
+    @GetMapping("/test")
+    fun test() = appleAuthService.test()
 }
