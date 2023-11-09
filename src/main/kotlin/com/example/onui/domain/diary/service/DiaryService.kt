@@ -15,4 +15,6 @@ interface DiaryService {
     fun getDetailById(id: UUID): DiaryDetailResponse
 
     fun update(req: UpdateDiaryRequest): DiaryDetailResponse
+
+    fun getSevenDaysAgo(): DiaryListResponse
 }
