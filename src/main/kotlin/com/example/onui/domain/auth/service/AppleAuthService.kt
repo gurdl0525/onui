@@ -2,7 +2,5 @@
 
 interface AppleAuthService {
 
-    fun test(): Any
-
-    fun signUp(code: String): Any
+    fun signUp(idToken: String): Any
 }
