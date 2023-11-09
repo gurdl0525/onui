@@ -1,16 +1,15 @@
 ﻿package com.example.onui.domain.mission.entity
 
 import java.util.UUID
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity(name = "mission")
-class Mission (
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "mission_type")
+abstract class Mission (
+    name: String,
     goal: String,
-    coast: Int,
+    message: String,
     id: UUID? = null
 ) {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,11 +17,15 @@ class Mission (
     var id = id
         protected set
 
+    @Column(name = "name", nullable = false)
+    var name: String = name
+        protected set
+
     @Column(name = "goal", nullable = false)
     var goal: String = goal
         protected set
 
-    @Column(name = "coast", nullable = false)
-    var coast: Int = coast
+    @Column(name = "message", nullable = false)
+    var message: String = message
         protected set
 }

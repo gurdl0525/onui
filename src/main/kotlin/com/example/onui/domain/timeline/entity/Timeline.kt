@@ -20,7 +20,8 @@ class Timeline(
     var id: UUID? = id
         protected set
 
-    @OneToOne(fetch = FetchType.LAZY) @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "id", columnDefinition = "BINARY(16)")
     var diary: Diary = diary
         protected set
@@ -33,9 +34,8 @@ class Timeline(
     var isUpdated: Boolean = isUpdated
         protected set
 
-    fun toResponse() = TimelineResponse (
+    fun toResponse() = TimelineResponse(
         this.id!!,
-        this.diary.title,
         this.diary.content,
         this.diary.mood,
         this.diary.tag,

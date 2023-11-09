@@ -7,5 +7,6 @@ enum class FileType(
     JPG("jpg"),
     JPEG("jpeg"),
     PDF("pdf"),
-    SVG("svg")
+    SVG("svg"),
+    HEIC("HEIC")
 }
