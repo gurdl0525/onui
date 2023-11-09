@@ -8,9 +8,6 @@ import javax.validation.constraints.NotNull
 data class CreateDiaryRequest(
 
     @field:NotBlank
-    val title: String?,
-
-    @field:NotBlank
     val content: String?,
 
     @field:NotNull(message = "null일 수 없습니다.")
