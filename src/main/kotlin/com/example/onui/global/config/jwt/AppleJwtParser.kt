@@ -17,15 +17,14 @@ class AppleJwtParser(
         private const val HEADER_INDEX = 0
     }
 
-    fun parseHeaders(identityToken: String): MutableMap<*, *> {
+    @Suppress("unchecked_cast")
+    fun parseHeaders(token: String): MutableMap<String?, String?> {
         return try {
-
-            val encodedHeader = identityToken.split(IDENTITY_TOKEN_VALUE_DELIMITER.toRegex())[HEADER_INDEX]
-            objectMapper.readValue(String(Base64Utils.decodeFromUrlSafeString(encodedHeader)), MutableMap::class.java)
-
+            val encodedHeader: String = token.split(IDENTITY_TOKEN_VALUE_DELIMITER.toRegex())[HEADER_INDEX]
+            val decodedHeader = String(Base64Utils.decodeFromUrlSafeString(encodedHeader))
+            objectMapper.readValue(decodedHeader, MutableMap::class.java) as MutableMap<String?, String?>
         } catch (e: JsonProcessingException) {
             throw InvalidTokenException
-
         } catch (e: ArrayIndexOutOfBoundsException) {
             throw InvalidTokenException
         }
