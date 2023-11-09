@@ -50,15 +50,10 @@ logging:
 # oauth
 oauth:
   apple:
-    iss: ${APPLE_BASE_URL}
-    client-id: ${APPLE_CLIENT_ID}
-    nonce: ${APPLE_NONCE}
-
-  google:
-    base-url: ${GOOGLE_BASE_URL}
-    client-id: ${GOOGLE_CLIENT}
-    client-secret: ${GOOGLE_SECRET}
-    redirect-url: ${GOOGLE_REDIRECT_URL}
+    client-id: ${APPLE_CLIENT}
+    issuer: ${APPLE_TEAM_ID}
+    key-id: ${APPLE_KEY_ID}
+    auth-key: ${APPLE_AUTH_KEY}
 
 # jwt
 jwt:
