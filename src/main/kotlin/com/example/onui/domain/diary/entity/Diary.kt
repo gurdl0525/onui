@@ -12,7 +12,7 @@ import javax.persistence.*
 class
 Diary(
     user: User,
-    content: String,
+    content: String?,
     mood: Mood,
     tag: MutableList<String>,
     createdAt: LocalDateTime,
@@ -31,8 +31,8 @@ Diary(
     var user: User = user
         protected set
 
-    @Column(name = "content", length = 1500, nullable = false)
-    var content: String = content
+    @Column(name = "content", length = 1500)
+    var content: String? = content
         protected set
 
     @Column(name = "mood", nullable = false)
