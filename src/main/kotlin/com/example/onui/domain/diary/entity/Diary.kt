@@ -12,16 +12,16 @@ import javax.persistence.*
 class
 Diary(
     user: User,
-    title: String,
     content: String,
     mood: Mood,
     tag: MutableList<String>,
     createdAt: LocalDateTime,
     image: String? = null,
     id: UUID? = null
-): BaseTimeEntity(createdAt) {
+) : BaseTimeEntity(createdAt) {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     var id: UUID? = id
         protected set
@@ -29,10 +29,6 @@ Diary(
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     var user: User = user
-        protected set
-
-    @Column(name = "title", length = 30, nullable = false)
-    var title: String= title
         protected set
 
     @Column(name = "content", length = 1500, nullable = false)
@@ -45,7 +41,7 @@ Diary(
         protected set
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "diary_tag", joinColumns = [JoinColumn(name= "diary_id", referencedColumnName = "id")])
+    @CollectionTable(name = "diary_tag", joinColumns = [JoinColumn(name = "diary_id", referencedColumnName = "id")])
     var tag: MutableList<String> = tag
         protected set
 
@@ -61,7 +57,6 @@ Diary(
 
     fun toDetailResponse() = DiaryDetailResponse(
         this.id!!,
-        this.title,
         this.content,
         this.mood,
         this.tag,
