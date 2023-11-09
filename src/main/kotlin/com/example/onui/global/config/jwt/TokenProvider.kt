@@ -5,9 +5,9 @@ import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.global.config.error.exception.ExpiredTokenException
 import com.example.onui.global.config.error.exception.InvalidTokenException
-import com.example.onui.global.config.jwt.env.TokenProperty
 import com.example.onui.global.config.security.principal.AuthDetails
 import com.example.onui.global.config.security.principal.AuthDetailsService
+import com.example.onui.global.env.TokenProperty
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -46,7 +46,7 @@ class TokenProvider(
         return rfToken
     }
 
-    fun receiveToken(sub: String) = TokenResponse (
+    fun receiveToken(sub: String) = TokenResponse(
         generateAccessToken(sub),
         getExp(property.accessExp),
         generateRefreshToken(sub),
@@ -56,15 +56,15 @@ class TokenProvider(
     private fun getExp(exp: Long) = LocalDateTime.now().withNano(0).plusSeconds(exp / 1000)
 
     private fun getSubject(token: String) = try {
-            Jwts.parser()
-                .setSigningKey(property.secretKey)
-                .parseClaimsJws(token).body.subject
-        } catch (e: Exception) {
-            when (e) {
-                is ExpiredJwtException -> throw ExpiredTokenException
-                else -> throw InvalidTokenException
-            }
+        Jwts.parser()
+            .setSigningKey(property.secretKey)
+            .parseClaimsJws(token).body.subject
+    } catch (e: Exception) {
+        when (e) {
+            is ExpiredJwtException -> throw ExpiredTokenException
+            else -> throw InvalidTokenException
         }
+    }
 
     fun getAuthentication(token: String): Authentication {
 
@@ -76,12 +76,12 @@ class TokenProvider(
     }
 
     fun reissue(token: String): TokenResponse {
-        
-        val sub = (refreshTokenRepository.findByIdOrNull(token) ?: throw InvalidTokenException)
-            .let {
+
+        val sub = refreshTokenRepository.findByIdOrNull(token)
+            ?.let {
                 refreshTokenRepository.delete(it)
                 return@let it.sub
-            }
+            } ?: throw InvalidTokenException
 
         return receiveToken(sub)
     }

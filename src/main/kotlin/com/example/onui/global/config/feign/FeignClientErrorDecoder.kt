@@ -17,6 +17,7 @@ class FeignClientErrorDecoder: ErrorDecoder {
 
     override fun decode(methodKey: String, response: Response): Exception {
 
+        logger.error { methodKey }
         logger.error { response.status() }
         logger.error { response.body() }
         logger.error { response.reason() }

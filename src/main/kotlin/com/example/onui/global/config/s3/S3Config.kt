@@ -4,13 +4,13 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.example.onui.global.config.s3.env.S3Property
+import com.example.onui.global.env.S3Property
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class S3Config(
-    val s3Property: S3Property
+    private val s3Property: S3Property
 ) {
 
     @Bean

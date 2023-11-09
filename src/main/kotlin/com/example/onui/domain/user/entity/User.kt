@@ -14,12 +14,13 @@ class User(
     id: UUID? = null
 ) {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", columnDefinition = "BINARY(16)")
     var id: UUID? = id
         protected set
 
-    @Column(name = "sub", nullable = false, length = 30, unique = true)
+    @Column(name = "sub", nullable = false, length = 60, unique = true)
     var sub: String = sub
         protected set
 

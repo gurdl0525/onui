@@ -3,12 +3,11 @@
 import com.example.onui.domain.diary.entity.Mood
 import java.time.DayOfWeek
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
-data class TimelineResponse (
+data class TimelineResponse(
     val id: UUID,
-    val title: String,
-    val content: String,
+    val content: String?,
     val mood: Mood,
     val tag: MutableList<String>,
     val image: String?,

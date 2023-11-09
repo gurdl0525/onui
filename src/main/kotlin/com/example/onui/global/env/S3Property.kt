@@ -1,4 +1,4 @@
-package com.example.onui.global.config.s3.env
+package com.example.onui.global.env
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding

@@ -2,7 +2,6 @@
 
 import com.example.onui.domain.diary.entity.Mood
 import java.util.*
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
@@ -11,10 +10,6 @@ data class UpdateDiaryRequest(
     @field:NotNull
     val id: UUID?,
 
-    @field:NotBlank
-    val title: String?,
-
-    @field:NotBlank
     val content: String?,
 
     @field:NotNull(message = "null일 수 없습니다.")
