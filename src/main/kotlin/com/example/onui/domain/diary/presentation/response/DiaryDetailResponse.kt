@@ -6,7 +6,7 @@ import java.util.*
 
 data class DiaryDetailResponse(
     val id: UUID,
-    val content: String,
+    val content: String?,
     val mood: Mood,
     val tagList: MutableList<String>,
     val createdAt: LocalDate,
