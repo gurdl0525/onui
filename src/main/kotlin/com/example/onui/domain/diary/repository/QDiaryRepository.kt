@@ -5,6 +5,8 @@ import com.example.onui.domain.diary.presentation.response.DiaryResponse
 import com.example.onui.domain.user.entity.User
 
 interface QDiaryRepository {
+
     fun findThreeDayAgoByUser(user: User): Diary?
+
     fun findSevenDayAgoByUser(user: User): MutableList<DiaryResponse>
 }
