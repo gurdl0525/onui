@@ -1,7 +1,6 @@
 ﻿package com.example.onui.domain.diary.service
 
 import com.example.onui.domain.diary.entity.Diary
-import com.example.onui.domain.diary.exception.AlreadyWroteDiaryException
 import com.example.onui.domain.diary.exception.DiaryNotFoundException
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
@@ -34,24 +33,22 @@ class DiaryServiceImpl(
         val user = userFacade.getCurrentUser()
         val now = LocalDateTime.now()
 
-        if (diaryRepository.existsByUserAndYearAndMonth(
+        val diary = Diary(
+            user,
+            req.content,
+            req.mood!!,
+            req.tagList!!,
+            now,
+            req.image,
+            diaryRepository.findByUserAndYearAndMonthAndDay(
                 user,
                 now.year,
-                now.monthValue
-            )
-        ) throw AlreadyWroteDiaryException
-
-        val diary = diaryRepository.save(
-            Diary(
-                user,
-                req.content,
-                req.mood!!,
-                req.tagList!!,
-                now,
-                req.image
-            )
+                now.monthValue,
+                now.dayOfMonth
+            )?.id
         )
 
+        diaryRepository.save(diary)
         user.diaryList.add(diary)
 
         return diary.toDetailResponse()
