@@ -8,11 +8,10 @@ import com.example.onui.domain.img.entity.FileType
 import com.example.onui.domain.img.exception.InvalidFileExtensionException
 import com.example.onui.domain.img.presentation.dto.response.FileUrlResponse
 import com.example.onui.global.common.facade.UserFacade
-import com.example.onui.global.config.s3.env.S3Property
+import com.example.onui.global.env.S3Property
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayInputStream
-import java.util.Base64
 import java.util.UUID
 
 @Service
