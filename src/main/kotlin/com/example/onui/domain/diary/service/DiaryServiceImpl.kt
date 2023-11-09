@@ -44,7 +44,7 @@ class DiaryServiceImpl(
         val diary = diaryRepository.save(
             Diary(
                 user,
-                req.content!!,
+                req.content,
                 req.mood!!,
                 req.tagList!!,
                 now,
@@ -84,7 +84,7 @@ class DiaryServiceImpl(
         diary = diaryRepository.save(
             Diary(
                 diary.user,
-                req.content!!,
+                req.content,
                 req.mood!!,
                 req.tagList!!,
                 diary.createdAt,
