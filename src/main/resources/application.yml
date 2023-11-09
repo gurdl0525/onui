@@ -47,14 +47,6 @@ logging:
   level:
     root: info
 
-# oauth
-oauth:
-  apple:
-    client-id: ${APPLE_CLIENT}
-    issuer: ${APPLE_TEAM_ID}
-    key-id: ${APPLE_KEY_ID}
-    auth-key: ${APPLE_AUTH_KEY}
-
 # jwt
 jwt:
   secret-key: ${JWT_SECRET}
