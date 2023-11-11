@@ -16,7 +16,7 @@ class AuthController(
     private val appleAuthService: AppleAuthService
 ) {
 
-    @GetMapping("/google")
+    @PostMapping("/google")
     fun oauthSignIn(
         @RequestParam(name = "token", required = true)
         token: String
