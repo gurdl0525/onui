@@ -1,11 +1,11 @@
 ﻿package com.example.onui.domain.timeline.service
 
+import com.example.onui.domain.diary.entity.Diary
 import com.example.onui.domain.diary.exception.DiaryNotFoundException
+import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.repository.DiaryRepository
-import com.example.onui.domain.timeline.entity.Timeline
 import com.example.onui.domain.timeline.exception.AlreadyPostedTimeLineException
-import com.example.onui.domain.timeline.presentation.dto.response.TimelineResponse
-import com.example.onui.domain.timeline.repository.TimelineRepository
+import com.example.onui.domain.timeline.repository.QTimelineRepository
 import com.example.onui.global.common.facade.UserFacade
 import com.example.onui.global.config.error.exception.PermissionDeniedException
 import org.springframework.data.domain.PageRequest
@@ -13,19 +13,19 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.DayOfWeek
+import java.time.LocalDate
 import java.util.*
 
 @Service
 @Transactional(readOnly = true)
 class TimelineServiceImpl(
     private val userFacade: UserFacade,
-    private val timelineRepository: TimelineRepository,
+    private val qTimelineRepository: QTimelineRepository,
     private val diaryRepository: DiaryRepository
-): TimeLineService {
+) : TimeLineService {
 
     @Transactional
-    override fun post(id: UUID): TimelineResponse {
+    override fun post(id: UUID): DiaryDetailResponse {
         val user = userFacade.getCurrentUser()
 
         val diary = diaryRepository.findByIdOrNull(id)
@@ -33,17 +33,24 @@ class TimelineServiceImpl(
 
         if (diary.user != user) throw PermissionDeniedException
 
-        if (timelineRepository.existsById(id)) throw AlreadyPostedTimeLineException
+        if (diaryRepository.existsByIdAndIsPosted(id, true)) throw AlreadyPostedTimeLineException
 
-        return timelineRepository.save(Timeline(
-            diary,
-            diary.createdAt
-        )).toResponse()
+        return diaryRepository.save(
+            Diary(
+                diary.user,
+                diary.content,
+                diary.mood,
+                diary.tagList,
+                diary.createdAt,
+                diary.image,
+                diary.id,
+                true
+            )
+        ).toDetailResponse()
     }
 
-    override fun searchByDayOfWeek(idx: Int, size: Int, dayOfWeek: DayOfWeek) = timelineRepository
-        .findAllByDayOfWeek(
-            dayOfWeek,
-            PageRequest.of(idx, size, Sort.by("diary.createdAt").descending())
-        ).map { it.toResponse() }
+    override fun searchByDate(idx: Int, size: Int, date: LocalDate) = qTimelineRepository
+        .findPageByDate(
+            PageRequest.of(idx, size, Sort.by("diary.createdAt").descending()), date
+        )
 }
