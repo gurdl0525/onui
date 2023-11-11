@@ -16,18 +16,4 @@ class RedisConfig(
 
     @Bean
     fun redisConnectionFactory(): RedisConnectionFactory = LettuceConnectionFactory(property.host, property.port)
-
-//    @Bean
-//    fun redisTemplate(): RedisTemplate<String, String> {
-//
-//        val template: RedisTemplate<String, String> = RedisTemplate()
-//
-//        template.let {
-//            it.keySerializer = StringRedisSerializer()
-//            it.valueSerializer = StringRedisSerializer()
-//            it.setConnectionFactory(redisConnectionFactory())
-//        }
-//
-//        return template
-//    }
 }
