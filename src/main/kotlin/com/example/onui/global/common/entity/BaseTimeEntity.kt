@@ -18,12 +18,14 @@ abstract class BaseTimeEntity(
     var year: Int = createdAt.year
         protected set
 
-    @Min(1) @Max(12)
+    @Min(1)
+    @Max(12)
     @Column(name = "month", nullable = false)
     var month: Int = createdAt.monthValue
         protected set
 
-    @Min(1) @Max(31)
+    @Min(1)
+    @Max(31)
     @Column(name = "day", nullable = false)
     var day: Int = createdAt.dayOfMonth
         protected set
