@@ -1,13 +1,13 @@
 ﻿package com.example.onui.domain.timeline.service
 
-import com.example.onui.domain.timeline.presentation.dto.response.TimelineResponse
+import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import org.springframework.data.domain.Page
-import java.time.DayOfWeek
+import java.time.LocalDate
 import java.util.*
 
 interface TimeLineService {
 
-    fun post(id: UUID): TimelineResponse
+    fun post(id: UUID): DiaryDetailResponse
 
-    fun searchByDayOfWeek(idx: Int, size: Int, dayOfWeek: DayOfWeek): Page<TimelineResponse>
+    fun searchByDate(idx: Int, size: Int, date: LocalDate): Page<DiaryDetailResponse>
 }

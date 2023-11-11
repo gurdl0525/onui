@@ -14,10 +14,11 @@ Diary(
     user: User,
     content: String?,
     mood: Mood,
-    tag: MutableList<String>,
+    tagList: MutableList<String>,
     createdAt: LocalDateTime,
     image: String? = null,
-    id: UUID? = null
+    id: UUID? = null,
+    isPosted: Boolean = false
 ) : BaseTimeEntity(createdAt) {
 
     @Id
@@ -42,11 +43,15 @@ Diary(
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "diary_tag", joinColumns = [JoinColumn(name = "diary_id", referencedColumnName = "id")])
-    var tag: MutableList<String> = tag
+    var tagList: MutableList<String> = tagList
         protected set
 
     @Column(name = "image", nullable = true)
     var image: String? = image
+        protected set
+
+    @Column(name = "is_posted", nullable = false, columnDefinition = "BIT")
+    var isPosted: Boolean = isPosted
         protected set
 
     fun toResponse() = DiaryResponse(
@@ -59,7 +64,7 @@ Diary(
         this.id!!,
         this.content,
         this.mood,
-        this.tag,
+        this.tagList,
         this.createdAt.toLocalDate(),
         this.image
     )
