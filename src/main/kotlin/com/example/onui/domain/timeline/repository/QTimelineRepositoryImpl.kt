@@ -1,7 +1,7 @@
 ﻿package com.example.onui.domain.timeline.repository
 
 import com.example.onui.domain.diary.entity.QDiary.diary
-import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
+import com.example.onui.domain.timeline.presentation.dto.response.TimelineResponse
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
@@ -14,7 +14,7 @@ class QTimelineRepositoryImpl(
     private val query: JPAQueryFactory
 ) : QTimelineRepository {
 
-    override fun findPageByDate(pageable: Pageable, date: LocalDate): Page<DiaryDetailResponse> {
+    override fun findPageByDate(pageable: Pageable, date: LocalDate): Page<TimelineResponse> {
         val query = query.selectFrom(diary).where(
             diary.isPosted.eq(true).and(
                 diary.day.eq(date.dayOfMonth).and(
@@ -25,7 +25,7 @@ class QTimelineRepositoryImpl(
             )
         ).orderBy(diary.createdAt.desc()).offset(pageable.offset).limit(pageable.pageSize.toLong())
 
-        val iterable = query.fetch().map { it.toDetailResponse() }
+        val iterable = query.fetch().map { it.toTimelineResponse() }
 
         return PageImpl(iterable, pageable, iterable.size.toLong())
     }
