@@ -4,6 +4,7 @@ import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.service.AppleAuthService
 import com.example.onui.domain.auth.service.AuthService
 import com.example.onui.domain.auth.service.GoogleAuthService
+import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -17,6 +18,7 @@ class AuthController(
 ) {
 
     @PostMapping("/google")
+    @ResponseStatus(HttpStatus.CREATED)
     fun oauthSignIn(
         @RequestParam(name = "token", required = true)
         token: String
@@ -29,6 +31,7 @@ class AuthController(
     ): TokenResponse = authService.reissue(token)
 
     @PostMapping("/apple")
+    @ResponseStatus(HttpStatus.CREATED)
     fun oauthSignInWithApple(
         @RequestParam(name = "token", required = true)
         token: String

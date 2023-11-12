@@ -2,6 +2,8 @@
 
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryResponse
+import com.example.onui.domain.timeline.entity.Comment
+import com.example.onui.domain.timeline.presentation.dto.response.TimelineResponse
 import com.example.onui.domain.user.entity.User
 import com.example.onui.global.common.entity.BaseTimeEntity
 import java.time.LocalDateTime
@@ -54,6 +56,9 @@ Diary(
     var isPosted: Boolean = isPosted
         protected set
 
+    @OneToMany(mappedBy = "timeline", cascade = [CascadeType.REMOVE])
+    var commentList: MutableList<Comment> = arrayListOf()
+
     fun toResponse() = DiaryResponse(
         this.id!!,
         this.mood,
@@ -67,5 +72,15 @@ Diary(
         this.tagList,
         this.createdAt.toLocalDate(),
         this.image
+    )
+
+    fun toTimelineResponse() = TimelineResponse(
+        this.id!!,
+        this.content,
+        this.mood,
+        this.tagList,
+        this.image,
+        this.user.name,
+        this.commentList.size
     )
 }

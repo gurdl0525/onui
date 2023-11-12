@@ -23,6 +23,7 @@ enum class ErrorCode(
 
     // 404
     DIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "감정 기록을 찾을 수 없습니다."),
+    TIMELINE_NOT_FOUND(HttpStatus.NOT_FOUND, "타임라인을 찾을 수 없습니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러")

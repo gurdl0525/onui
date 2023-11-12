@@ -1,7 +1,7 @@
 ﻿package com.example.onui.domain.timeline.presentation
 
 import com.example.onui.domain.timeline.exception.InvalidDateFormatException
-import com.example.onui.domain.timeline.service.TimeLineService
+import com.example.onui.domain.timeline.service.TimelineService
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -13,14 +13,12 @@ import java.util.*
 @RestController
 @RequestMapping("/tl")
 class TimelineController(
-    private val timelineService: TimeLineService
+    private val timelineService: TimelineService
 ) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createTimeline(
-        @RequestParam("id", required = true) id: UUID
-    ) = timelineService.post(id)
+    fun createTimeline(@RequestParam("id", required = true) id: UUID) = timelineService.post(id)
 
     @GetMapping
     fun getByDate(
