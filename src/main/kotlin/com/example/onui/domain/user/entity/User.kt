@@ -1,6 +1,7 @@
 package com.example.onui.domain.user.entity
 
 import com.example.onui.domain.diary.entity.Diary
+import com.example.onui.domain.timeline.entity.Comment
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import org.hibernate.annotations.DynamicUpdate
 import java.util.*
@@ -30,6 +31,9 @@ class User(
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE])
     var diaryList: MutableList<Diary> = arrayListOf()
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE])
+    var commentList: MutableList<Comment> = arrayListOf()
 
     fun toResponse() = UserProfileResponse(
         this.sub,
