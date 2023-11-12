@@ -14,4 +14,6 @@ interface DiaryRepository : JpaRepository<Diary, UUID?> {
     fun findByUserAndYearAndMonthAndDay(user: User, year: Int, month: Int, day: Int): Diary?
 
     fun existsByIdAndIsPosted(id: UUID, isPosted: Boolean): Boolean
+
+    fun findByIdAndIsPosted(id: UUID, isPosted: Boolean): Diary?
 }

@@ -4,6 +4,7 @@ import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.UserRepository
+import com.example.onui.global.config.error.exception.InvalidTokenException
 import com.example.onui.global.config.jwt.TokenProvider
 import com.example.onui.infra.feign.google.GoogleAuthClient
 import com.example.onui.infra.feign.google.GoogleInfoClient
@@ -31,12 +32,17 @@ class GoogleAuthServiceImpl(
 
         logger.info { token }
 
-        val response = googleInfo.googleInfo(ALT, token)
+        val response = try {
+            googleInfo.googleInfo(ALT, token)
+        } catch (e: Exception) {
+            throw InvalidTokenException
+        }
 
         refreshTokenRepository.findBySub(response.sub)?.let {
             refreshTokenRepository.delete(it)
         }
 
+        googleAuth.revokeToken(token)
         val tokenResponse = tokenProvider.receiveToken(response.sub)
 
         userRepository.findBySub(response.sub)
@@ -46,8 +52,6 @@ class GoogleAuthServiceImpl(
                     response.name
                 )
             )
-
-        googleAuth.revokeToken(token)
 
         return tokenResponse
     }
