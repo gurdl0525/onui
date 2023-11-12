@@ -3,4 +3,4 @@
 import com.example.onui.global.config.error.data.ErrorCode
 import com.example.onui.global.config.error.exception.BusinessException
 
-object AlreadyPostedTimeLineException : BusinessException(ErrorCode.ALREADY_POSTED_TIMELINE)
+object AlreadyPostedTimelineException : BusinessException(ErrorCode.ALREADY_POSTED_TIMELINE)

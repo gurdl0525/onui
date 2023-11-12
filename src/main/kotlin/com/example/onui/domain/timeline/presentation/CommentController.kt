@@ -1,7 +1,7 @@
 ﻿package com.example.onui.domain.timeline.presentation
 
 import com.example.onui.domain.timeline.presentation.dto.request.CommentRequest
-import com.example.onui.domain.timeline.service.TimeLineService
+import com.example.onui.domain.timeline.service.TimelineService
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -12,7 +12,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/comment")
 class CommentController(
-    private val timelineService: TimeLineService
+    private val timelineService: TimelineService
 ) {
 
     @PostMapping

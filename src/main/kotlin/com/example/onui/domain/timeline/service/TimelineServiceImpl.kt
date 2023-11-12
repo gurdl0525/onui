@@ -4,7 +4,7 @@ import com.example.onui.domain.diary.entity.Diary
 import com.example.onui.domain.diary.exception.DiaryNotFoundException
 import com.example.onui.domain.diary.repository.DiaryRepository
 import com.example.onui.domain.timeline.entity.Comment
-import com.example.onui.domain.timeline.exception.AlreadyPostedTimeLineException
+import com.example.onui.domain.timeline.exception.AlreadyPostedTimelineException
 import com.example.onui.domain.timeline.exception.TimelineNotFoundException
 import com.example.onui.domain.timeline.presentation.dto.response.CommentListResponse
 import com.example.onui.domain.timeline.presentation.dto.response.CommentResponse
@@ -28,7 +28,7 @@ class TimelineServiceImpl(
     private val qTimelineRepository: QTimelineRepository,
     private val diaryRepository: DiaryRepository,
     private val commentRepository: CommentRepository
-) : TimeLineService {
+) : TimelineService {
 
     @Transactional
     override fun post(id: UUID): TimelineResponse {
@@ -38,7 +38,7 @@ class TimelineServiceImpl(
 
         if (diary.user != user) throw PermissionDeniedException
 
-        if (diaryRepository.existsByIdAndIsPosted(id, true)) throw AlreadyPostedTimeLineException
+        if (diaryRepository.existsByIdAndIsPosted(id, true)) throw AlreadyPostedTimelineException
 
         return diaryRepository.save(
             Diary(
@@ -48,8 +48,8 @@ class TimelineServiceImpl(
     }
 
     override fun searchByDate(idx: Int, size: Int, date: LocalDate) = qTimelineRepository.findPageByDate(
-            PageRequest.of(idx, size, Sort.by("diary.createdAt").descending()), date
-        )
+        PageRequest.of(idx, size, Sort.by("diary.createdAt").descending()), date
+    )
 
     @Transactional
     override fun comment(timelineId: UUID, comment: String): CommentResponse {

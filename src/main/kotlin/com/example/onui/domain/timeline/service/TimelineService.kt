@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page
 import java.time.LocalDate
 import java.util.*
 
-interface TimeLineService {
+interface TimelineService {
 
     fun post(id: UUID): TimelineResponse
 
