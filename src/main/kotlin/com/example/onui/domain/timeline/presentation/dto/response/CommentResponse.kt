@@ -5,6 +5,6 @@ import java.util.*
 data class CommentResponse(
     val id: UUID,
     val timeline: UUID,
-    val user: UUID,
+    val userTheme: String,
     val content: String
 )
