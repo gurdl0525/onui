@@ -4,10 +4,9 @@ import com.example.onui.global.config.error.handler.ExceptionHandlerFilter
 import com.example.onui.global.config.filter.FilterConfig
 import com.example.onui.global.config.jwt.JwtTokenResolver
 import com.example.onui.global.config.jwt.TokenProvider
-import mu.KLogger
-import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -40,6 +39,7 @@ class SecurityConfig(
 
             .antMatchers("/**/test").permitAll()
             .antMatchers("/auth/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/healthcheck").permitAll()
             .anyRequest().authenticated()
             .and()
 
