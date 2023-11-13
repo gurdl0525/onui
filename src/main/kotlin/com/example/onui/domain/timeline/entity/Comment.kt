@@ -41,7 +41,7 @@ class Comment(
     fun toResponse() = CommentResponse(
         this.id!!,
         this.timeline.id!!,
-        this.user.id!!,
+        this.user.theme.id,
         this.content
     )
 }
