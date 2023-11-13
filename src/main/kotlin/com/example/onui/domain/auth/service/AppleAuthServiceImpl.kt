@@ -1,7 +1,9 @@
 ﻿package com.example.onui.domain.auth.service
 
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
+import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
+import com.example.onui.domain.user.repository.ThemeRepository
 import com.example.onui.domain.user.repository.UserRepository
 import com.example.onui.global.config.error.exception.ExpiredTokenException
 import com.example.onui.global.config.error.exception.InvalidTokenException
@@ -13,6 +15,7 @@ import com.example.onui.infra.feign.apple.dto.ApplePublicKeys
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.security.KeyFactory
@@ -27,13 +30,13 @@ class AppleAuthServiceImpl(
     private val appleClient: AppleClient,
     private val jwtProvider: TokenProvider,
     private val jwtParser: AppleJwtParser,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val themeRepository: ThemeRepository
 ) : AppleAuthService {
 
     private companion object {
         const val ALG_HEADER_KEY = "alg"
         const val KID_HEADER_KEY = "kid"
-        const val NAME = "user-"
     }
 
     @Transactional
@@ -49,7 +52,8 @@ class AppleAuthServiceImpl(
                 User(
                     sub,
                     token.get("email", String::class.java)
-                        ?: (NAME + UUID.randomUUID().toString().replace("-", ""))
+                        ?: ("user-" + UUID.randomUUID().toString().replace("-", "")),
+                    themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
                 )
             )
 
