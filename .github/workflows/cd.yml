@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Deploy For EC2 # EC2 ssh 접속
+      - name: Deploy For EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -36,7 +36,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_REPOSITORY }}
-            docker stop ${{ secrets.SERVER_NAME }}
-            docker rm ${{ secrets.SERVER_NAME }}
-            docker run -dp ${{ secrets.HOST_PORT }}:${{ secrets.DOCKER_CONTAINER_PORT }} --name ${{ secrets.SERVER_NAME }} --env-file ${{ secrets.ENV_PATH }} ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
+            docker stop onui-server
+            docker rm onui-server
+            docker run -dp ${{ secrets.HOST_PORT }}:${{ secrets.DOCKER_CONTAINER_PORT }} --name onui-server --env-file .env ${{ secrets.DOCKER_REPOSITORY }}
             docker rmi $(docker images -f "dangling=true" -q)
