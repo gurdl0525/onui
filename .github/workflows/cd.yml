@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker stop${{ secrets.SERVER_NAME }}
+            docker stop ${{ secrets.SERVER_NAME }}
             docker rm ${{ secrets.SERVER_NAME }}
             docker pull ${{ secrets.DOCKER_REPOSITORY }}
             docker run -dp ${{ secrets.HOST_PORT }}:${{ secrets.DOCKER_CONTAINER_PORT }} --name ${{ secrets.SERVER_NAME }} --env-file ${{ secrets.ENV_PATH }} ${{ secrets.DOCKER_REPOSITORY }}
