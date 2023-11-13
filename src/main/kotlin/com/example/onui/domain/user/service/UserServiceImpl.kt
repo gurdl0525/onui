@@ -12,17 +12,22 @@ import org.springframework.transaction.annotation.Transactional
 class UserServiceImpl(
     private val userRepository: UserRepository,
     private val userFacade: UserFacade
-): UserService {
+) : UserService {
 
     @Transactional
     override fun rename(name: String): UserProfileResponse {
 
         val user = userFacade.getCurrentUser()
 
-        return userRepository.save(User(
-            user.sub,
-            name,
-            user.id
-        )).toResponse()
+        return userRepository.save(
+            User(
+                user.sub,
+                name,
+                user.theme,
+                user.id
+            )
+        ).toResponse()
     }
+
+    override fun getProfile(): UserProfileResponse = userFacade.getCurrentUser().toResponse()
 }

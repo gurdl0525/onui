@@ -5,4 +5,6 @@ import com.example.onui.domain.user.presentation.dto.response.UserProfileRespons
 interface UserService {
 
     fun rename(name: String): UserProfileResponse
+
+    fun getProfile(): UserProfileResponse
 }
