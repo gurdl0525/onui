@@ -40,7 +40,7 @@ class DiaryController(
     fun getById(
         @RequestParam("date", required = true)
         date: String
-    ): DiaryDetailResponse = diaryService.getDetailById(LocalDate.parse(date))
+    ): DiaryDetailResponse? = diaryService.getDetailById(LocalDate.parse(date))
 
     @PutMapping
     fun updateDiary(
