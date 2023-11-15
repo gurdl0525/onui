@@ -12,5 +12,5 @@ interface UserService {
 
     fun postTheme(id: String)
 
-    fun changeFilter(onFiltering: Boolean)
+    fun changeFilter(onFiltering: Boolean): UserProfileResponse
 }

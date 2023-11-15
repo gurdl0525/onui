@@ -51,10 +51,10 @@ class UserServiceImpl(
     }
 
     @Transactional
-    override fun changeFilter(onFiltering: Boolean) {
+    override fun changeFilter(onFiltering: Boolean): UserProfileResponse {
         val user = userFacade.getCurrentUser()
 
-        userRepository.save(
+        return userRepository.save(
             User(
                 user.sub,
                 user.name,
@@ -63,6 +63,6 @@ class UserServiceImpl(
                 user.role,
                 onFiltering
             )
-        )
+        ).toResponse()
     }
 }
