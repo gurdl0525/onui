@@ -1,12 +1,11 @@
 ﻿package com.example.onui.domain.mission.repository
 
-import com.example.onui.domain.mission.entity.Mission
+import com.example.onui.domain.mission.entity.AssignMission
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface MissionRepository : JpaRepository<Mission, UUID?> {
+interface AssignMissionRepository : JpaRepository<AssignMission, UUID?> {
 
-    fun existsByName(name: String): Boolean
 }

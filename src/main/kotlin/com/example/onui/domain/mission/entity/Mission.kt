@@ -1,23 +1,24 @@
 ﻿package com.example.onui.domain.mission.entity
 
-import java.util.UUID
+import com.example.onui.domain.mission.presentation.dto.response.MissionResponse
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "mission")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "mission_type")
-abstract class Mission (
+class Mission(
     name: String,
     goal: String,
     message: String,
+    missionType: MissionType,
     id: UUID? = null
 ) {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BINARY(16)")
-    var id = id
+    var id: UUID? = id
         protected set
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String = name
         protected set
 
@@ -28,4 +29,21 @@ abstract class Mission (
     @Column(name = "message", nullable = false)
     var message: String = message
         protected set
+
+    @Column(name = "mission_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    var missionType: MissionType = missionType
+        protected set
+
+    @OneToOne(mappedBy = "mission", cascade = [CascadeType.REMOVE])
+    var assignMission: AssignMission? = null
+
+    fun toResponse(coast: Int?) = MissionResponse(
+        this.id!!,
+        this.name,
+        this.goal,
+        this.message,
+        this.missionType,
+        coast
+    )
 }

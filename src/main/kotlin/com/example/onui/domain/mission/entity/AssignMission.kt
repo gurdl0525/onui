@@ -1,22 +1,24 @@
 ﻿package com.example.onui.domain.mission.entity
 
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.DiscriminatorValue
-import javax.persistence.Entity
+import javax.persistence.*
 
-@Entity
-@DiscriminatorValue("assigned")
-@OnDelete(action = OnDeleteAction.CASCADE)
+@Entity(name = "assign_mission")
 class AssignMission(
-    name: String,
-    goal: String,
+    mission: Mission,
     coast: Int,
-    message: String,
     id: UUID? = null
-): Mission(name, goal, message, id) {
+) {
+    @Id
+    @Column(name = "mission_id")
+    var id: UUID? = id
+        protected set
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "mission_id", columnDefinition = "BINARY(16)")
+    var mission: Mission = mission
+        protected set
 
     @Column(name = "coast", nullable = false)
     var coast: Int = coast

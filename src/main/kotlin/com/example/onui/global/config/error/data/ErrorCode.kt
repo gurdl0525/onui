@@ -11,6 +11,7 @@ enum class ErrorCode(
     FEIGN_CLIENT(HttpStatus.BAD_REQUEST, "Feign Client 오류"),
     INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "지원하지 않는 파일 확장자입니다."),
     INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "date가 올비르지 않습니다."),
+    TYPE_COAST_MISS_MATCHED(HttpStatus.BAD_REQUEST, "type이 ASSIGN일 때 반드시 coast를 설정해야합니다."),
 
     // 401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
@@ -28,6 +29,7 @@ enum class ErrorCode(
     ALREADY_WROTE_DIARY(HttpStatus.CONFLICT, "이미 감정을 기록하셨습니다."),
     ALREADY_POSTED_TIMELINE(HttpStatus.CONFLICT, "이미 타임라인을 업로드하셨습니다."),
     ALREADY_POSTED_THEME(HttpStatus.CONFLICT, "이미 테마를 업로드하셨습니다."),
+    ALREADY_CREATED_MISSION(HttpStatus.CONFLICT, "이미 미션을 등록하셨습니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러")
