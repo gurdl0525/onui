@@ -39,6 +39,7 @@ class SecurityConfig(
 
             .antMatchers("/**/test").permitAll()
             .antMatchers("/auth/**").permitAll()
+            .antMatchers(HttpMethod.DELETE, "/auth").authenticated()
             .antMatchers(HttpMethod.GET, "/healthcheck").permitAll()
             .anyRequest().authenticated()
             .and()
