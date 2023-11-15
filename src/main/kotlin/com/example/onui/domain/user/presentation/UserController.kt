@@ -29,11 +29,11 @@ class UserController(
     fun changeTheme(
         @RequestBody @Valid
         req: ChangeThemeRequest
-    ): UserProfileResponse = userService.changeTheme(req.theme)
+    ): UserProfileResponse = userService.changeTheme(req.theme!!)
 
     @PatchMapping("/filter")
     fun changeFilter(
         @RequestBody @Valid
         req: ChangeFilterRequest
-    ) = userService.changeFilter(req.onFiltering)
+    ) = userService.changeFilter(req.onFiltering!!)
 }
