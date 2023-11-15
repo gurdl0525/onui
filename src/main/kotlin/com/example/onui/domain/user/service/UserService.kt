@@ -7,4 +7,6 @@ interface UserService {
     fun rename(name: String): UserProfileResponse
 
     fun getProfile(): UserProfileResponse
+
+    fun changeTheme(themeId: String): UserProfileResponse
 }
