@@ -58,9 +58,13 @@ class TimelineServiceImpl(
     @Transactional
     override fun comment(timelineId: UUID, comment: String): CommentResponse {
 
+        val user = userFacade.getCurrentUser()
+
         val timeline = diaryRepository.findByIdAndIsPosted(timelineId, true) ?: throw TimelineNotFoundException
 
-        return commentRepository.save(Comment(comment, userFacade.getCurrentUser(), timeline)).toResponse()
+        val commented = commentRepository.save(Comment(comment, userFacade.getCurrentUser(), timeline))
+
+        return if (user.onFiltering) commented.toFilteringResponse(badWordFiltering) else commented.toResponse()
     }
 
     override fun getComment(timelineId: UUID): CommentListResponse {
