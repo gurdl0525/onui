@@ -1,5 +1,6 @@
 ﻿package com.example.onui.domain.auth.service
 
+import com.example.onui.domain.auth.entity.Names
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
@@ -22,7 +23,6 @@ import java.security.KeyFactory
 import java.security.NoSuchAlgorithmException
 import java.security.PublicKey
 import java.security.spec.InvalidKeySpecException
-import java.util.*
 
 
 @Service
@@ -31,7 +31,7 @@ class AppleAuthServiceImpl(
     private val jwtProvider: TokenProvider,
     private val jwtParser: AppleJwtParser,
     private val userRepository: UserRepository,
-    private val themeRepository: ThemeRepository
+    private val themeRepository: ThemeRepository,
 ) : AppleAuthService {
 
     private companion object {
@@ -47,15 +47,14 @@ class AppleAuthServiceImpl(
         val sub = token.subject
 
 
-        val user = userRepository.findBySub(sub)
-            ?: userRepository.save(
-                User(
-                    sub,
-                    token.get("email", String::class.java)
-                        ?: ("user-" + UUID.randomUUID().toString().replace("-", "")),
-                    themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
-                )
+        val user = userRepository.findBySub(sub) ?: userRepository.save(
+            User(
+                sub,
+
+                token.get("name", String::class.java) ?: token.get("email", String::class.java) ?: getRandomName(),
+                themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
             )
+        )
 
         return jwtProvider.receiveToken(user.sub)
     }
@@ -65,8 +64,7 @@ class AppleAuthServiceImpl(
     )
 
     private fun generatePublicKey(
-        tokenHeaders: MutableMap<String?, String?>,
-        applePublicKeys: ApplePublicKeys
+        tokenHeaders: MutableMap<String?, String?>, applePublicKeys: ApplePublicKeys
     ): PublicKey {
 
         val publicKey: ApplePublicKey =
@@ -84,10 +82,7 @@ class AppleAuthServiceImpl(
 
     private fun parseClaims(token: String, publicKey: PublicKey): Claims {
         return try {
-            Jwts.parser()
-                .setSigningKey(publicKey)
-                .parseClaimsJws(token)
-                .body
+            Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).body
         } catch (e: Exception) {
             when (e) {
                 is ExpiredJwtException -> throw ExpiredTokenException
@@ -95,4 +90,6 @@ class AppleAuthServiceImpl(
             }
         }
     }
+
+    private fun getRandomName() = Names.values().random().n
 }
