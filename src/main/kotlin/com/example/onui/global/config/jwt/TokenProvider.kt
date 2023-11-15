@@ -72,7 +72,7 @@ class TokenProvider(
 
         val authDetails = authDetailsService.loadUserByUsername(subject) as AuthDetails
 
-        return UsernamePasswordAuthenticationToken(authDetails, "", authDetails.authorities)
+        return UsernamePasswordAuthenticationToken(authDetails, null, authDetails.authorities)
     }
 
     fun reissue(token: String): TokenResponse {

@@ -1,6 +1,7 @@
 ﻿package com.example.onui.domain.timeline.presentation.dto.response
 
 import com.example.onui.domain.diary.entity.Mood
+import java.time.LocalDate
 import java.util.*
 
 data class TimelineResponse(
@@ -10,5 +11,6 @@ data class TimelineResponse(
     val tagList: MutableList<String>,
     val image: String?,
     val writer: String,
-    val commentCount: Int
+    val commentCount: Int,
+    val date: LocalDate
 )
