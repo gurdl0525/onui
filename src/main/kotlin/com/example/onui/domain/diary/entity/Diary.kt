@@ -81,6 +81,7 @@ Diary(
         this.tagList,
         this.image,
         this.user.name,
-        this.commentList.size
+        this.commentList.size,
+        this.createdAt.toLocalDate()
     )
 }
