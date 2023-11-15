@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository
 interface RefreshTokenRepository : CrudRepository<RefreshToken, String> {
 
     fun findBySub(sub: String): RefreshToken?
-
-    fun deleteBySub(sub: String)
 }

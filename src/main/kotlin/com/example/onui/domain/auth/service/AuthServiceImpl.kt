@@ -23,7 +23,9 @@ class AuthServiceImpl(
 
         val user = userFacade.getCurrentUser()
 
-        refreshTokenRepository.deleteBySub(user.sub)
+        refreshTokenRepository.findBySub(user.sub)?.let {
+            refreshTokenRepository.delete(it)
+        }
         userRepository.delete(user)
     }
 }
