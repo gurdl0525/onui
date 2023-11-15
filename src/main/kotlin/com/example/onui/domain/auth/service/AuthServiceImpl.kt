@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-abstract class AuthServiceImpl(
+class AuthServiceImpl(
     private val tokenProvider: TokenProvider,
     private val userFacade: UserFacade,
     private val userRepository: UserRepository,
