@@ -51,4 +51,9 @@ class AuthController(
         .setIssuedAt(Date())
         .setExpiration(Date(Date().time.plus(2592000000)))
         .compact()
+
+    @DeleteMapping
+    fun signOut() {
+        authService.signOut()
+    }
 }
