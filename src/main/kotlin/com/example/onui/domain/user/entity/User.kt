@@ -15,6 +15,7 @@ class User(
     theme: Theme,
     id: UUID? = null,
     role: Role = Role.USER,
+    onFiltering: Boolean = false
 ) {
 
     @Id
@@ -49,9 +50,14 @@ class User(
     var theme: Theme = theme
         protected set
 
+    @Column(name = "on_filtering", nullable = false, columnDefinition = "BIT")
+    var onFiltering: Boolean = onFiltering
+        protected set
+
     fun toResponse() = UserProfileResponse(
         this.sub,
         this.name,
-        this.theme.id
+        this.theme.id,
+        this.onFiltering
     )
 }

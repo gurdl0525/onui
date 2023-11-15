@@ -6,6 +6,7 @@ import com.example.onui.domain.timeline.entity.Comment
 import com.example.onui.domain.timeline.presentation.dto.response.TimelineResponse
 import com.example.onui.domain.user.entity.User
 import com.example.onui.global.common.entity.BaseTimeEntity
+import com.vane.badwordfiltering.BadWordFiltering
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
@@ -77,6 +78,17 @@ Diary(
     fun toTimelineResponse() = TimelineResponse(
         this.id!!,
         this.content,
+        this.mood,
+        this.tagList,
+        this.image,
+        this.user.name,
+        this.commentList.size,
+        this.createdAt.toLocalDate()
+    )
+
+    fun toFilteringTimelineResponse(badWordFiltering: BadWordFiltering) = TimelineResponse(
+        this.id!!,
+        badWordFiltering.change(this.content),
         this.mood,
         this.tagList,
         this.image,

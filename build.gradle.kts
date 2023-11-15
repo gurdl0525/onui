@@ -81,6 +81,9 @@ dependencies {
 
     // s3
     implementation("com.amazonaws:aws-java-sdk-s3:1.12.232")
+
+    // bad word filter
+    implementation("io.github.vaneproject:badwordfiltering:1.0.0")
 }
 
 dependencyManagement {

@@ -1,6 +1,7 @@
 ﻿package com.example.onui.domain.user.presentation
 
-import com.example.onui.domain.user.presentation.dto.request.ChangeRequest
+import com.example.onui.domain.user.presentation.dto.request.ChangeFilterRequest
+import com.example.onui.domain.user.presentation.dto.request.ChangeThemeRequest
 import com.example.onui.domain.user.presentation.dto.request.RenameRequest
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import com.example.onui.domain.user.service.UserService
@@ -27,6 +28,12 @@ class UserController(
     @PatchMapping("/theme")
     fun changeTheme(
         @RequestBody @Valid
-        req: ChangeRequest
+        req: ChangeThemeRequest
     ): UserProfileResponse = userService.changeTheme(req.theme)
+
+    @PatchMapping("/filter")
+    fun changeFilter(
+        @RequestBody @Valid
+        req: ChangeFilterRequest
+    ) = userService.changeFilter(req.onFiltering)
 }

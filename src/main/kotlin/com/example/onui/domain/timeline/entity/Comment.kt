@@ -3,6 +3,7 @@
 import com.example.onui.domain.diary.entity.Diary
 import com.example.onui.domain.timeline.presentation.dto.response.CommentResponse
 import com.example.onui.domain.user.entity.User
+import com.vane.badwordfiltering.BadWordFiltering
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
@@ -43,5 +44,12 @@ class Comment(
         this.timeline.id!!,
         this.user.theme.id,
         this.content
+    )
+
+    fun toFilteringResponse(badWordFiltering: BadWordFiltering) = CommentResponse(
+        this.id!!,
+        this.timeline.id!!,
+        this.user.theme.id,
+        badWordFiltering.change(this.content)
     )
 }

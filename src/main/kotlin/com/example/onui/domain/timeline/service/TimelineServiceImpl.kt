@@ -13,6 +13,8 @@ import com.example.onui.domain.timeline.repository.CommentRepository
 import com.example.onui.domain.timeline.repository.QTimelineRepository
 import com.example.onui.global.common.facade.UserFacade
 import com.example.onui.global.config.error.exception.PermissionDeniedException
+import com.vane.badwordfiltering.BadWordFiltering
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
@@ -27,7 +29,8 @@ class TimelineServiceImpl(
     private val userFacade: UserFacade,
     private val qTimelineRepository: QTimelineRepository,
     private val diaryRepository: DiaryRepository,
-    private val commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
+    private val badWordFiltering: BadWordFiltering
 ) : TimelineService {
 
     @Transactional
@@ -47,28 +50,30 @@ class TimelineServiceImpl(
         ).toTimelineResponse()
     }
 
-    override fun searchByDate(idx: Int, size: Int, date: LocalDate) = qTimelineRepository.findPageByDate(
-        PageRequest.of(idx, size, Sort.by("diary.createdAt").descending()), date
-    )
+    override fun searchByDate(idx: Int, size: Int, date: LocalDate): Page<TimelineResponse> = qTimelineRepository
+        .findPageByDate(
+            PageRequest.of(idx, size, Sort.by("diary.createdAt").descending()), date, userFacade.getCurrentUser()
+        )
 
     @Transactional
     override fun comment(timelineId: UUID, comment: String): CommentResponse {
 
         val timeline = diaryRepository.findByIdAndIsPosted(timelineId, true) ?: throw TimelineNotFoundException
 
-        return commentRepository.save(
-            Comment(
-                comment, userFacade.getCurrentUser(), timeline
-            )
-        ).toResponse()
+        return commentRepository.save(Comment(comment, userFacade.getCurrentUser(), timeline)).toResponse()
     }
 
     override fun getComment(timelineId: UUID): CommentListResponse {
 
+        val user = userFacade.getCurrentUser()
+
         val timeline = diaryRepository.findByIdAndIsPosted(timelineId, true) ?: throw TimelineNotFoundException
 
-        val commentList =
-            commentRepository.findAllByTimelineOrderByCreatedAtAsc(timeline).map { it.toResponse() }.toMutableList()
+
+        val commentList = commentRepository.findAllByTimelineOrderByCreatedAtAsc(timeline).map {
+            if (user.onFiltering) it.toFilteringResponse(badWordFiltering)
+            else it.toResponse()
+        }.toMutableList()
 
         return CommentListResponse(if (commentList.isEmpty()) null else commentList)
     }
