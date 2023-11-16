@@ -33,7 +33,7 @@ spring:
       ddl-auto: ${DDL_AUTO:update}
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
         show_sql: true
         use_sql_comments: false
     open-in-view: false
