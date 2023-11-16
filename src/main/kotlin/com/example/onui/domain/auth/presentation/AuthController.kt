@@ -47,7 +47,7 @@ class AuthController(
     @GetMapping("/test")
     fun testToken(): String = Jwts.builder()
         .signWith(SignatureAlgorithm.HS256, jwtProperty.secretKey)
-        .setSubject(userRepository.findAll().randomOrNull()?.sub)
+        .setSubject("111899969632443851953")
         .setIssuedAt(Date())
         .setExpiration(Date(Date().time.plus(2592000000)))
         .compact()
