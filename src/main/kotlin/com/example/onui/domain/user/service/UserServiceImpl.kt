@@ -26,7 +26,17 @@ class UserServiceImpl(
 
         val user = userFacade.getCurrentUser()
 
-        return userRepository.save(User(user.sub, name, user.theme, user.id, user.role, user.onFiltering)).toResponse()
+        return userRepository.save(
+            User(
+                user.sub,
+                name,
+                user.profileTheme,
+                user.theme,
+                user.id,
+                user.role,
+                user.onFiltering
+            )
+        ).toResponse()
     }
 
     override fun getProfile(): UserProfileResponse = userFacade.getCurrentUser().toResponse()
@@ -38,7 +48,17 @@ class UserServiceImpl(
 
         val theme = themeRepository.findByIdOrNull(themeId) ?: throw ThemeNotFoundException
 
-        return userRepository.save(User(user.sub, user.name, theme, user.id, user.role, user.onFiltering)).toResponse()
+        return userRepository.save(
+            User(
+                user.sub,
+                user.name,
+                user.profileTheme,
+                theme,
+                user.id,
+                user.role,
+                user.onFiltering
+            )
+        ).toResponse()
     }
 
     @Transactional
