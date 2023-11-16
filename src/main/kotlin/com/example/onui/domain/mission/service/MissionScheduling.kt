@@ -11,7 +11,6 @@ import com.example.onui.domain.user.repository.UserRepository
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -24,10 +23,10 @@ class MissionScheduling(
 ) {
 
     @Transactional
-    @Scheduled(cron = "0 41 15 * * ?", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 10 16 * * ?", zone = "Asia/Seoul")
     fun assigningMission() {
 
-        val date = LocalDate.now()
+        assignedRepository.deleteAll()
 
         val randomMissions = missionRepository.findAllByMissionType(MissionType.RANDOM)
 
@@ -37,7 +36,8 @@ class MissionScheduling(
 
             val assignMission: Mission = if (diaries.isNotEmpty() && diaries.count() > 1) {
 
-                qMissionRepository.findAssignByCoast(diaries.sumOf { diary -> diary.mood.coast }).random()
+                qMissionRepository.findAssignByCoast(diaries.sumOf { diary -> diary.mood.coast }.div(diaries.size))
+                    .random()
 
             } else randomMissions.random()
 
@@ -56,11 +56,4 @@ class MissionScheduling(
             )
         }
     }
-
-    @Transactional
-    @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Seoul")
-    fun disAssigning() {
-        assignedRepository.deleteAll()
-    }
-
 }

@@ -9,7 +9,7 @@ import java.util.*
 @Repository
 interface MissionRepository : JpaRepository<Mission, UUID?> {
 
-    fun existsByName(name: String): Boolean
+    fun existsByMessage(message: String): Boolean
 
     fun findAllByMissionType(missionType: MissionType): MutableList<Mission>
 }

@@ -30,13 +30,13 @@ class MissionServiceImpl(
         userFacade.getAdmin()
 
         if (req.missionType!! == MissionType.ASSIGN && req.coast == null) throw TypeCoastMissMatchedMissionException
-        if (missionRepository.existsByName(req.name!!)) throw AlreadyCreatedMissionException
+        if (missionRepository.existsByMessage(req.message!!)) throw AlreadyCreatedMissionException
 
         val mission = missionRepository.save(
             Mission(
-                req.name,
+                req.name!!,
                 req.goal!!,
-                req.message!!,
+                req.message,
                 req.missionType
             )
         )
