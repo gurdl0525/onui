@@ -3,10 +3,7 @@
 import com.example.onui.domain.shop.presentation.dto.response.ShopListResponse
 import com.example.onui.domain.shop.service.ShopService
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @Validated
 @RestController
@@ -20,4 +17,7 @@ class ShopController(
         @RequestParam("id", required = true)
         id: String
     ): ShopListResponse = shopService.buy(id)
+
+    @GetMapping
+    fun getShop(): ShopListResponse = shopService.getShopList()
 }

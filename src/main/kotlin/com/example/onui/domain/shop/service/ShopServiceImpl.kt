@@ -45,6 +45,8 @@ class ShopServiceImpl(
         return getShopList(user)
     }
 
+    override fun getShopList(): ShopListResponse = getShopList(userFacade.getCurrentUser())
+
     private fun getShopList(user: User) = ShopListResponse(themeRepository.findAll().filter {
         it.price != 0L && !boughtThemeRepository.existsById(BoughtTheme.IdClass(it.id, user.id))
     }.map {
