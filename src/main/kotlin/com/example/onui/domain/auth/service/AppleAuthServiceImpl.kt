@@ -2,6 +2,9 @@
 
 import com.example.onui.domain.auth.entity.Names
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
+import com.example.onui.domain.mission.entity.MissionType
+import com.example.onui.domain.mission.repository.MissionRepository
+import com.example.onui.domain.mission.service.MissionService
 import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.ThemeRepository
@@ -32,6 +35,8 @@ class AppleAuthServiceImpl(
     private val jwtParser: AppleJwtParser,
     private val userRepository: UserRepository,
     private val themeRepository: ThemeRepository,
+    private val missionService: MissionService,
+    private val missionRepository: MissionRepository
 ) : AppleAuthService {
 
     private companion object {
@@ -48,14 +53,16 @@ class AppleAuthServiceImpl(
         val sub = token.subject
 
 
-        val user = userRepository.findBySub(sub) ?: userRepository.save(
+        val user: User = userRepository.findBySub(sub) ?: userRepository.save(
             User(
                 sub,
                 token.get("name", String::class.java) ?: token.get("email", String::class.java) ?: getRandomName(),
                 DEFAULT,
                 themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
             )
-        )
+        ).apply {
+            missionService.assignMission(this, missionRepository.findAllByMissionType(MissionType.RANDOM))
+        }
 
         return jwtProvider.receiveToken(user.sub)
     }

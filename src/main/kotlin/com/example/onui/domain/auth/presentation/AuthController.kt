@@ -4,7 +4,6 @@ import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.service.AppleAuthService
 import com.example.onui.domain.auth.service.AuthService
 import com.example.onui.domain.auth.service.GoogleAuthService
-import com.example.onui.domain.user.repository.UserRepository
 import com.example.onui.global.env.TokenProperty
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -20,7 +19,6 @@ class AuthController(
     private val googleAuthService: GoogleAuthService,
     private val authService: AuthService,
     private val appleAuthService: AppleAuthService,
-    private val userRepository: UserRepository,
     private val jwtProperty: TokenProperty
 ) {
 

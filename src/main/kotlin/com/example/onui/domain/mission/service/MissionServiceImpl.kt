@@ -1,5 +1,6 @@
 ﻿package com.example.onui.domain.mission.service
 
+import com.example.onui.domain.diary.repository.QDiaryRepository
 import com.example.onui.domain.mission.entity.AssignMission
 import com.example.onui.domain.mission.entity.Assigned
 import com.example.onui.domain.mission.entity.Mission
@@ -13,6 +14,7 @@ import com.example.onui.domain.mission.presentation.dto.response.MissionResponse
 import com.example.onui.domain.mission.repository.AssignMissionRepository
 import com.example.onui.domain.mission.repository.AssignedRepository
 import com.example.onui.domain.mission.repository.MissionRepository
+import com.example.onui.domain.mission.repository.QMissionRepository
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.UserRepository
 import com.example.onui.global.common.facade.UserFacade
@@ -28,7 +30,9 @@ class MissionServiceImpl(
     private val missionRepository: MissionRepository,
     private val assignMissionRepository: AssignMissionRepository,
     private val assignedRepository: AssignedRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val qDiaryRepository: QDiaryRepository,
+    private val qMissionRepository: QMissionRepository
 ) : MissionService {
 
     @Transactional
@@ -103,4 +107,30 @@ class MissionServiceImpl(
             it.mission.toResponse(it.mission.assignMission?.coast, it.isFinished)
         }.toMutableList()
     )
+
+    override fun assignMission(user: User, randomMissions: MutableList<Mission>) {
+
+        val diaries = qDiaryRepository.findSevenDayAgoByUser(user)
+
+        val assignMission: Mission = if (diaries.isNotEmpty() && diaries.count() > 3) {
+
+            qMissionRepository.findAssignByCoast(diaries.sumOf { diary -> diary.mood.coast }.div(diaries.size))
+                .random()
+
+        } else randomMissions.random()
+
+        var randomMission = randomMissions.random()
+
+        while (randomMission == assignMission) {
+            randomMission = randomMissions.random()
+        }
+
+        assignedRepository.saveAll(
+            listOf(
+                Assigned(user, missionRepository.findAllByMissionType(MissionType.ESSENTIAL).random()),
+                Assigned(user, assignMission),
+                Assigned(user, randomMission)
+            )
+        )
+    }
 }

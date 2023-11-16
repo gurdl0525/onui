@@ -2,6 +2,9 @@ package com.example.onui.domain.auth.service
 
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.repository.RefreshTokenRepository
+import com.example.onui.domain.mission.entity.MissionType
+import com.example.onui.domain.mission.repository.MissionRepository
+import com.example.onui.domain.mission.service.MissionService
 import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.ThemeRepository
@@ -23,7 +26,9 @@ class GoogleAuthServiceImpl(
     private val userRepository: UserRepository,
     private val tokenProvider: TokenProvider,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val themeRepository: ThemeRepository
+    private val themeRepository: ThemeRepository,
+    private val missionService: MissionService,
+    private val missionRepository: MissionRepository
 ) : GoogleAuthService {
 
     private companion object {
@@ -57,7 +62,9 @@ class GoogleAuthServiceImpl(
                 DEFAULT,
                 themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
             )
-        )
+        ).apply {
+            missionService.assignMission(this, missionRepository.findAllByMissionType(MissionType.RANDOM))
+        }
 
         return tokenResponse
     }

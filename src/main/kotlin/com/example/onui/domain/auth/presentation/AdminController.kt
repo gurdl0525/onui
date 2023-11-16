@@ -21,9 +21,11 @@ class AdminController(
     @ResponseStatus(HttpStatus.CREATED)
     fun postTheme(
         @RequestParam("id", required = true)
-        id: String
+        id: String,
+        @RequestParam("price", required = true)
+        price: Long
     ) {
-        userService.postTheme(id)
+        userService.postTheme(id, price)
     }
 
     @PostMapping("/mission")

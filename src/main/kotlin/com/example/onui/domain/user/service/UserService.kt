@@ -12,7 +12,7 @@ interface UserService {
 
     fun changeTheme(themeId: String): UserProfileResponse
 
-    fun postTheme(id: String)
+    fun postTheme(id: String, price: Long)
 
     fun changeFilter(onFiltering: Boolean): UserProfileResponse
 

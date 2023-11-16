@@ -1,5 +1,8 @@
 ﻿package com.example.onui.domain.user.service
 
+import com.example.onui.domain.shop.entity.BoughtTheme
+import com.example.onui.domain.shop.exception.NotBoughtThemeException
+import com.example.onui.domain.shop.repository.BoughtThemeRepository
 import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.exception.AlreadyPostedThemeException
@@ -19,7 +22,8 @@ import org.springframework.transaction.annotation.Transactional
 class UserServiceImpl(
     private val userRepository: UserRepository,
     private val userFacade: UserFacade,
-    private val themeRepository: ThemeRepository
+    private val themeRepository: ThemeRepository,
+    private val boughtThemeRepository: BoughtThemeRepository
 ) : UserService {
 
     @Transactional
@@ -50,6 +54,9 @@ class UserServiceImpl(
 
         val theme = themeRepository.findByIdOrNull(themeId) ?: throw ThemeNotFoundException
 
+        if (theme.price != 0L && boughtThemeRepository.findByIdOrNull(BoughtTheme.IdClass(theme.id, user.id)) == null)
+            throw NotBoughtThemeException
+
         return userRepository.save(
             User(
                 user.sub,
@@ -65,13 +72,13 @@ class UserServiceImpl(
     }
 
     @Transactional
-    override fun postTheme(id: String) {
+    override fun postTheme(id: String, price: Long) {
 
         userFacade.getAdmin()
 
         if (themeRepository.existsById(id)) throw AlreadyPostedThemeException
 
-        themeRepository.save(Theme(id))
+        themeRepository.save(Theme(id, price))
     }
 
     @Transactional

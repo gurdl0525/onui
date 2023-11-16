@@ -2,6 +2,7 @@ package com.example.onui.domain.user.entity
 
 import com.example.onui.domain.diary.entity.Diary
 import com.example.onui.domain.mission.entity.Assigned
+import com.example.onui.domain.shop.entity.BoughtTheme
 import com.example.onui.domain.timeline.entity.Comment
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import org.hibernate.annotations.DynamicUpdate
@@ -67,6 +68,10 @@ class User(
 
     @Column(name = "rice", nullable = false)
     var rice: Long = rice
+        protected set
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    var boughtTheme: MutableList<BoughtTheme> = arrayListOf()
         protected set
 
     fun toResponse() = UserProfileResponse(
