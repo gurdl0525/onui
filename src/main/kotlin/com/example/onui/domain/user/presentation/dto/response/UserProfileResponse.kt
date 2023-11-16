@@ -6,6 +6,8 @@ data class UserProfileResponse(
 
     val name: String,
 
+    val profileTheme: String,
+
     val theme: String,
 
     val onFiltering: Boolean

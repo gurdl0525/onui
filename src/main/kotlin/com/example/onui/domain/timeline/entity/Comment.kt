@@ -42,14 +42,14 @@ class Comment(
     fun toResponse() = CommentResponse(
         this.id!!,
         this.timeline.id!!,
-        this.user.theme.id,
+        this.user.profileTheme,
         this.content
     )
 
     fun toFilteringResponse(badWordFiltering: BadWordFiltering) = CommentResponse(
         this.id!!,
         this.timeline.id!!,
-        this.user.theme.id,
+        this.user.profileTheme,
         badWordFiltering.change(this.content)
     )
 }

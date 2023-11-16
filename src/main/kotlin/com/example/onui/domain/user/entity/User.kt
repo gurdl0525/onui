@@ -12,6 +12,7 @@ import javax.persistence.*
 class User(
     sub: String,
     name: String,
+    profileTheme: String,
     theme: Theme,
     id: UUID? = null,
     role: Role = Role.USER,
@@ -45,6 +46,10 @@ class User(
     var commentList: MutableList<Comment> = arrayListOf()
         protected set
 
+    @Column(name = "profile_theme", nullable = false, length = 6)
+    var profileTheme: String = profileTheme
+        protected set
+
     @ManyToOne
     @JoinColumn(name = "theme_id", nullable = false)
     var theme: Theme = theme
@@ -57,6 +62,7 @@ class User(
     fun toResponse() = UserProfileResponse(
         this.sub,
         this.name,
+        this.profileTheme,
         this.theme.id,
         this.onFiltering
     )

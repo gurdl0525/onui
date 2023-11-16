@@ -37,6 +37,7 @@ class AppleAuthServiceImpl(
     private companion object {
         const val ALG_HEADER_KEY = "alg"
         const val KID_HEADER_KEY = "kid"
+        const val DEFAULT = "FFFFFF"
     }
 
     @Transactional
@@ -50,8 +51,8 @@ class AppleAuthServiceImpl(
         val user = userRepository.findBySub(sub) ?: userRepository.save(
             User(
                 sub,
-
                 token.get("name", String::class.java) ?: token.get("email", String::class.java) ?: getRandomName(),
+                DEFAULT,
                 themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
             )
         )

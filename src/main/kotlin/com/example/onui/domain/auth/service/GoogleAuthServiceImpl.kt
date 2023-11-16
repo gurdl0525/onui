@@ -29,6 +29,7 @@ class GoogleAuthServiceImpl(
     private companion object {
         const val ALT = "json"
         val logger = KotlinLogging.logger {}
+        const val DEFAULT = "FFFFFF"
     }
 
     @Transactional
@@ -53,6 +54,7 @@ class GoogleAuthServiceImpl(
             User(
                 response.sub,
                 response.name,
+                DEFAULT,
                 themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
             )
         )
