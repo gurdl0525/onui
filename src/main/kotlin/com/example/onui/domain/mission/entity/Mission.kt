@@ -39,12 +39,13 @@ class Mission(
     var assignMission: AssignMission? = null
         protected set
 
-    fun toResponse(coast: Int?) = MissionResponse(
+    fun toResponse(coast: Int?, isFinished: Boolean) = MissionResponse(
         this.id!!,
         this.name,
         this.goal,
         this.message,
         this.missionType,
-        coast
+        coast,
+        isFinished
     )
 }

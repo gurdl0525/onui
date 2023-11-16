@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AssignedRepository: JpaRepository<Assigned, Assigned.IdClass> {
+interface AssignedRepository : JpaRepository<Assigned, Assigned.IdClass> {
 
-    fun findAllByUser(user: User): List<Assigned>?
+    fun findAllByUser(user: User): MutableList<Assigned>
 }

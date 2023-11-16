@@ -6,8 +6,10 @@ import com.example.onui.domain.mission.entity.MissionType
 import com.example.onui.domain.mission.exception.AlreadyCreatedMissionException
 import com.example.onui.domain.mission.exception.TypeCoastMissMatchedMissionException
 import com.example.onui.domain.mission.presentation.dto.request.CreateMissionRequest
+import com.example.onui.domain.mission.presentation.dto.response.MissionListResponse
 import com.example.onui.domain.mission.presentation.dto.response.MissionResponse
 import com.example.onui.domain.mission.repository.AssignMissionRepository
+import com.example.onui.domain.mission.repository.AssignedRepository
 import com.example.onui.domain.mission.repository.MissionRepository
 import com.example.onui.global.common.facade.UserFacade
 import org.springframework.stereotype.Service
@@ -18,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional
 class MissionServiceImpl(
     private val userFacade: UserFacade,
     private val missionRepository: MissionRepository,
-    private val assignMissionRepository: AssignMissionRepository
+    private val assignMissionRepository: AssignMissionRepository,
+    private val assignedRepository: AssignedRepository
 ) : MissionService {
 
     @Transactional
@@ -28,7 +31,7 @@ class MissionServiceImpl(
 
         if (req.missionType!! == MissionType.ASSIGN && req.coast == null) throw TypeCoastMissMatchedMissionException
         if (missionRepository.existsByName(req.name!!)) throw AlreadyCreatedMissionException
-        
+
         val mission = missionRepository.save(
             Mission(
                 req.name,
@@ -42,6 +45,12 @@ class MissionServiceImpl(
             return@let assignMissionRepository.save(AssignMission(mission, it)).coast
         }
 
-        return mission.toResponse(coast)
+        return mission.toResponse(coast, false)
     }
+
+    override fun getMissions() = MissionListResponse(
+        assignedRepository.findAllByUser(userFacade.getCurrentUser()).map {
+            it.mission.toResponse(it.mission.assignMission?.coast, it.isFinished)
+        }.toMutableList()
+    )
 }

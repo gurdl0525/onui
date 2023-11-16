@@ -46,7 +46,7 @@ class User(
     var commentList: MutableList<Comment> = arrayListOf()
         protected set
 
-    @Column(name = "profile_theme", nullable = false, length = 6)
+    @Column(name = "profile_theme", nullable = false, columnDefinition = "CHAR(6)")
     var profileTheme: String = profileTheme
         protected set
 

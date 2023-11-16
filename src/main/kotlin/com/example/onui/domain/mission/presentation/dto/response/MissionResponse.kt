@@ -15,5 +15,7 @@ data class MissionResponse(
 
     val missionType: MissionType,
 
-    val coast: Int?
+    val coast: Int?,
+
+    val isFinished: Boolean
 )
