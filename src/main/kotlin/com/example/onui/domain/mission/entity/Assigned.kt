@@ -16,13 +16,13 @@ class Assigned(
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "mission_id", nullable = false)
+    @JoinColumn(name = "mission_id", nullable = false, columnDefinition = "BINARY(16)")
     var mission: Mission = mission
         protected set
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, columnDefinition = "BINARY(16)")
     var user: User = user
         protected set
 

@@ -1,6 +1,7 @@
 package com.example.onui.domain.user.entity
 
 import com.example.onui.domain.diary.entity.Diary
+import com.example.onui.domain.mission.entity.Assigned
 import com.example.onui.domain.timeline.entity.Comment
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import org.hibernate.annotations.DynamicUpdate
@@ -57,6 +58,10 @@ class User(
 
     @Column(name = "on_filtering", nullable = false, columnDefinition = "BIT")
     var onFiltering: Boolean = onFiltering
+        protected set
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE])
+    var assignedList: MutableList<Assigned> = arrayListOf()
         protected set
 
     fun toResponse() = UserProfileResponse(

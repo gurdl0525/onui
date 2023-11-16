@@ -39,6 +39,10 @@ class Mission(
     var assignMission: AssignMission? = null
         protected set
 
+    @OneToMany(mappedBy = "mission", cascade = [CascadeType.REMOVE])
+    var assignedList: MutableList<Assigned> = arrayListOf()
+        protected set
+
     fun toResponse(coast: Int?, isFinished: Boolean) = MissionResponse(
         this.id!!,
         this.name,

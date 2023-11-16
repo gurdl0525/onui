@@ -23,7 +23,7 @@ class MissionScheduling(
 ) {
 
     @Transactional
-    @Scheduled(cron = "0 10 16 * * ?", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Seoul")
     fun assigningMission() {
 
         assignedRepository.deleteAll()
