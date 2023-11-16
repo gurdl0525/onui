@@ -27,9 +27,8 @@ class Theme(
     var price: Long = price
         protected set
 
-    fun toShopResponse(isSold: Boolean) = ShopResponse(
+    fun toShopResponse() = ShopResponse(
         this.id,
-        this.price,
-        isSold
+        this.price
     )
 }

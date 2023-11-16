@@ -4,7 +4,5 @@ data class ShopResponse(
 
     val themeId: String,
 
-    val price: Long,
-
-    val isSold: Boolean
+    val price: Long
 )

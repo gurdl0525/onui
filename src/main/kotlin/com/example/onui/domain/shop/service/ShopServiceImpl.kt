@@ -45,7 +45,9 @@ class ShopServiceImpl(
         return getShopList(user)
     }
 
-    private fun getShopList(user: User) = ShopListResponse(themeRepository.findAll().map {
-        it.toShopResponse(boughtThemeRepository.existsById(BoughtTheme.IdClass(it.id, user.id)))
+    private fun getShopList(user: User) = ShopListResponse(themeRepository.findAll().filter {
+        it.price != 0L && !boughtThemeRepository.existsById(BoughtTheme.IdClass(it.id, user.id))
+    }.map {
+        it.toShopResponse()
     }.toMutableList())
 }
