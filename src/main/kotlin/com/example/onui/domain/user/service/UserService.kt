@@ -16,4 +16,6 @@ interface UserService {
     fun changeFilter(onFiltering: Boolean): UserProfileResponse
 
     fun getTheme(): ThemeResponse
+
+    fun changeProfileTheme(profileTheme: String): UserProfileResponse
 }

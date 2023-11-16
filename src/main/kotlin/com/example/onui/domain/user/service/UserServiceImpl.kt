@@ -90,4 +90,21 @@ class UserServiceImpl(
     }
 
     override fun getTheme() = ThemeResponse(userFacade.getCurrentUser().theme.id)
+
+    @Transactional
+    override fun changeProfileTheme(profileTheme: String): UserProfileResponse {
+        val user = userFacade.getCurrentUser()
+
+        return userRepository.save(
+            User(
+                user.sub,
+                user.name,
+                profileTheme,
+                user.theme,
+                user.id,
+                user.role,
+                user.onFiltering
+            )
+        ).toResponse()
+    }
 }
