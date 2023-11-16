@@ -4,7 +4,7 @@ import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryListResponse
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 interface DiaryService {
 

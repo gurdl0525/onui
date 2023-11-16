@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.multipart.MultipartException
+import java.time.format.DateTimeParseException
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
@@ -58,4 +59,10 @@ class ExceptionHandler {
             HttpStatus.BAD_REQUEST
         )
     }
+
+    @ExceptionHandler(DateTimeParseException::class)
+    protected fun handleDateTimeParseException(e: DateTimeParseException) = ResponseEntity(
+        ErrorResponse(HttpStatus.BAD_REQUEST, "잘못된 Date 포맷입니다."),
+        HttpStatus.BAD_REQUEST
+    )
 }

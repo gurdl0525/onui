@@ -52,6 +52,7 @@ class UserServiceImpl(
 
     @Transactional
     override fun changeFilter(onFiltering: Boolean): UserProfileResponse {
+
         val user = userFacade.getCurrentUser()
 
         return userRepository.save(

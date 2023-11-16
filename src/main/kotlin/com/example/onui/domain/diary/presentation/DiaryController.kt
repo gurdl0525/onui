@@ -5,10 +5,10 @@ import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryListResponse
 import com.example.onui.domain.diary.service.DiaryService
-import org.joda.time.LocalDate
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import javax.validation.Valid
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min

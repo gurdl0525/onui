@@ -10,10 +10,10 @@ import com.example.onui.domain.diary.repository.DiaryRepository
 import com.example.onui.domain.diary.repository.QDiaryRepository
 import com.example.onui.global.common.facade.UserFacade
 import com.example.onui.global.config.error.exception.PermissionDeniedException
-import org.joda.time.LocalDate
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -51,8 +51,8 @@ class DiaryServiceImpl(
     )
 
     override fun getDetailById(date: LocalDate): DiaryDetailResponse? = diaryRepository.findByUserAndYearAndMonthAndDay(
-            userFacade.getCurrentUser(), date.year, date.monthOfYear, date.dayOfMonth
-        )?.toDetailResponse()
+        userFacade.getCurrentUser(), date.year, date.monthValue, date.dayOfMonth
+    )?.toDetailResponse()
 
     @Transactional
     override fun update(req: UpdateDiaryRequest): DiaryDetailResponse {
