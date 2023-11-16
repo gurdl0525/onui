@@ -22,7 +22,7 @@ class CommentController(
         timelineId: UUID,
         @RequestBody @Valid
         req: CommentRequest
-    ) = timelineService.comment(timelineId, req.comment)
+    ) = timelineService.comment(timelineId, req.comment!!)
 
     @GetMapping
     fun getComment(
