@@ -24,12 +24,14 @@ enum class ErrorCode(
     DIARY_NOT_FOUND(HttpStatus.NOT_FOUND, "감정 기록을 찾을 수 없습니다."),
     TIMELINE_NOT_FOUND(HttpStatus.NOT_FOUND, "타임라인을 찾을 수 없습니다."),
     THEME_NOT_FOUND(HttpStatus.NOT_FOUND, "테마를 찾을 수 없습니다."),
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "미션을 찾을 수 없습니다."),
 
     // 409
     ALREADY_WROTE_DIARY(HttpStatus.CONFLICT, "이미 감정을 기록하셨습니다."),
     ALREADY_POSTED_TIMELINE(HttpStatus.CONFLICT, "이미 타임라인을 업로드하셨습니다."),
     ALREADY_POSTED_THEME(HttpStatus.CONFLICT, "이미 테마를 업로드하셨습니다."),
     ALREADY_CREATED_MISSION(HttpStatus.CONFLICT, "이미 미션을 등록하셨습니다."),
+    ALREADY_FINISHED_MISSION(HttpStatus.CONFLICT, "이미 미션을 완료하셨습니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러")

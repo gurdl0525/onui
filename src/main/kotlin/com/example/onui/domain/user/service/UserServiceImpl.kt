@@ -4,6 +4,7 @@ import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.exception.AlreadyPostedThemeException
 import com.example.onui.domain.user.exception.ThemeNotFoundException
+import com.example.onui.domain.user.presentation.dto.response.RiceResponse
 import com.example.onui.domain.user.presentation.dto.response.ThemeResponse
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import com.example.onui.domain.user.repository.ThemeRepository
@@ -32,6 +33,7 @@ class UserServiceImpl(
                 name,
                 user.profileTheme,
                 user.theme,
+                user.rice,
                 user.id,
                 user.role,
                 user.onFiltering
@@ -54,6 +56,7 @@ class UserServiceImpl(
                 user.name,
                 user.profileTheme,
                 theme,
+                user.rice,
                 user.id,
                 user.role,
                 user.onFiltering
@@ -82,6 +85,7 @@ class UserServiceImpl(
                 user.name,
                 user.profileTheme,
                 user.theme,
+                user.rice,
                 user.id,
                 user.role,
                 onFiltering
@@ -101,10 +105,13 @@ class UserServiceImpl(
                 user.name,
                 profileTheme,
                 user.theme,
+                user.rice,
                 user.id,
                 user.role,
                 user.onFiltering
             )
         ).toResponse()
     }
+
+    override fun getRice() = RiceResponse(userFacade.getCurrentUser().rice)
 }

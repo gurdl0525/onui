@@ -4,6 +4,7 @@ import com.example.onui.domain.user.presentation.dto.request.ChangeFilterRequest
 import com.example.onui.domain.user.presentation.dto.request.ChangeProfileThemeRequest
 import com.example.onui.domain.user.presentation.dto.request.ChangeThemeRequest
 import com.example.onui.domain.user.presentation.dto.request.RenameRequest
+import com.example.onui.domain.user.presentation.dto.response.RiceResponse
 import com.example.onui.domain.user.presentation.dto.response.ThemeResponse
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import com.example.onui.domain.user.service.UserService
@@ -47,4 +48,7 @@ class UserController(
 
     @GetMapping("/theme")
     fun getTheme(): ThemeResponse = userService.getTheme()
+
+    @GetMapping("/rice")
+    fun getRice(): RiceResponse = userService.getRice()
 }

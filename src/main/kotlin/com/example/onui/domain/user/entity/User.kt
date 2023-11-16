@@ -15,6 +15,7 @@ class User(
     name: String,
     profileTheme: String,
     theme: Theme,
+    rice: Long = 0,
     id: UUID? = null,
     role: Role = Role.USER,
     onFiltering: Boolean = false
@@ -62,6 +63,10 @@ class User(
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE])
     var assignedList: MutableList<Assigned> = arrayListOf()
+        protected set
+
+    @Column(name = "rice", nullable = false)
+    var rice: Long = rice
         protected set
 
     fun toResponse() = UserProfileResponse(
