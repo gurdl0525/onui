@@ -5,7 +5,6 @@ import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.domain.mission.entity.MissionType
 import com.example.onui.domain.mission.repository.MissionRepository
 import com.example.onui.domain.mission.service.MissionService
-import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.ThemeRepository
 import com.example.onui.domain.user.repository.UserRepository
@@ -35,6 +34,7 @@ class GoogleAuthServiceImpl(
         const val ALT = "json"
         val logger = KotlinLogging.logger {}
         const val DEFAULT = "FFFFFF"
+        const val DEFAULT_ID = "default"
     }
 
     @Transactional
@@ -60,7 +60,7 @@ class GoogleAuthServiceImpl(
                 response.sub,
                 response.name,
                 DEFAULT,
-                themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
+                themeRepository.findByIdOrNull(DEFAULT_ID)!!
             )
         ).apply {
             missionService.assignMission(this, missionRepository.findAllByMissionType(MissionType.RANDOM))

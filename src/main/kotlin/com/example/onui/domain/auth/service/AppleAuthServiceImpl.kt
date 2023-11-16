@@ -5,7 +5,6 @@ import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.mission.entity.MissionType
 import com.example.onui.domain.mission.repository.MissionRepository
 import com.example.onui.domain.mission.service.MissionService
-import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.repository.ThemeRepository
 import com.example.onui.domain.user.repository.UserRepository
@@ -43,6 +42,7 @@ class AppleAuthServiceImpl(
         const val ALG_HEADER_KEY = "alg"
         const val KID_HEADER_KEY = "kid"
         const val DEFAULT = "FFFFFF"
+        const val DEFAULT_ID = "default"
     }
 
     @Transactional
@@ -58,7 +58,7 @@ class AppleAuthServiceImpl(
                 sub,
                 token.get("name", String::class.java) ?: token.get("email", String::class.java) ?: getRandomName(),
                 DEFAULT,
-                themeRepository.findByIdOrNull("default") ?: themeRepository.save(Theme("default"))
+                themeRepository.findByIdOrNull(DEFAULT_ID)!!
             )
         ).apply {
             missionService.assignMission(this, missionRepository.findAllByMissionType(MissionType.RANDOM))
