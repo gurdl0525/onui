@@ -8,6 +8,7 @@ import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.exception.AlreadyPostedThemeException
 import com.example.onui.domain.user.exception.ThemeNotFoundException
 import com.example.onui.domain.user.presentation.dto.response.RiceResponse
+import com.example.onui.domain.user.presentation.dto.response.ThemeListResponse
 import com.example.onui.domain.user.presentation.dto.response.ThemeResponse
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import com.example.onui.domain.user.repository.ThemeRepository
@@ -121,4 +122,20 @@ class UserServiceImpl(
     }
 
     override fun getRice() = RiceResponse(userFacade.getCurrentUser().rice)
+
+    override fun getBoughtTheme(): ThemeListResponse {
+
+        val res = boughtThemeRepository.findAllByUser(userFacade.getCurrentUser()).map {
+            ThemeResponse(it.theme.id)
+        }.toMutableList()
+
+        res.addAll(
+            themeRepository.findAllByPrice(0L).map {
+                ThemeResponse(it.id)
+            }
+        )
+
+        return ThemeListResponse(res)
+    }
+
 }

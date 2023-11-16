@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ThemeRepository : JpaRepository<Theme, String> {
+
+    fun findAllByPrice(price: Long): MutableList<Theme>
 }

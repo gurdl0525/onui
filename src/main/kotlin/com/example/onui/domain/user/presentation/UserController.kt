@@ -51,4 +51,7 @@ class UserController(
 
     @GetMapping("/rice")
     fun getRice(): RiceResponse = userService.getRice()
+
+    @GetMapping("/bought/theme")
+    fun getBoughtTheme() = userService.getBoughtTheme()
 }
