@@ -18,7 +18,7 @@ class Mission(
     var id: UUID? = id
         protected set
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     var name: String = name
         protected set
 
@@ -26,7 +26,7 @@ class Mission(
     var goal: String = goal
         protected set
 
-    @Column(name = "message", nullable = false)
+    @Column(name = "message", nullable = false, unique = true)
     var message: String = message
         protected set
 
@@ -37,6 +37,7 @@ class Mission(
 
     @OneToOne(mappedBy = "mission", cascade = [CascadeType.REMOVE])
     var assignMission: AssignMission? = null
+        protected set
 
     fun toResponse(coast: Int?) = MissionResponse(
         this.id!!,
