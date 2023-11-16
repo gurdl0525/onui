@@ -3,30 +3,37 @@
 import com.example.onui.domain.user.entity.User
 import org.springframework.data.domain.Persistable
 import java.io.Serializable
-import java.util.UUID
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "assigned_table")
 @IdClass(Assigned.IdClass::class)
 class Assigned(
     user: User,
-    mission: Mission
-): Persistable<Assigned.IdClass> {
+    mission: Mission,
+    isFinished: Boolean = false
+) : Persistable<Assigned.IdClass> {
 
-    @Id @ManyToOne
+    @Id
+    @ManyToOne
     @JoinColumn(name = "mission_id", nullable = false)
     var mission: Mission = mission
         protected set
 
-    @Id @ManyToOne
+    @Id
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     var user: User = user
         protected set
 
+    @Column(name = "is_finished", nullable = false, columnDefinition = "BIT")
+    var isFinished: Boolean = isFinished
+        protected set
+
     data class IdClass(
-        var mission: UUID? =null,
+        var mission: UUID? = null,
         var user: UUID? = null
-    ): Serializable
+    ) : Serializable
 
     override fun getId() = IdClass(this.mission.id, this.user.id)
 

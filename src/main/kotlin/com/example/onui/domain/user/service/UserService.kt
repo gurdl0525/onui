@@ -1,5 +1,6 @@
 ﻿package com.example.onui.domain.user.service
 
+import com.example.onui.domain.user.presentation.dto.response.ThemeResponse
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 
 interface UserService {
@@ -13,4 +14,6 @@ interface UserService {
     fun postTheme(id: String)
 
     fun changeFilter(onFiltering: Boolean): UserProfileResponse
+
+    fun getTheme(): ThemeResponse
 }

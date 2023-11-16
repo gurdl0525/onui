@@ -3,6 +3,7 @@
 import com.example.onui.domain.user.presentation.dto.request.ChangeFilterRequest
 import com.example.onui.domain.user.presentation.dto.request.ChangeThemeRequest
 import com.example.onui.domain.user.presentation.dto.request.RenameRequest
+import com.example.onui.domain.user.presentation.dto.response.ThemeResponse
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import com.example.onui.domain.user.service.UserService
 import org.springframework.validation.annotation.Validated
@@ -36,4 +37,7 @@ class UserController(
         @RequestBody @Valid
         req: ChangeFilterRequest
     ) = userService.changeFilter(req.onFiltering!!)
+
+    @GetMapping("/theme")
+    fun getTheme(): ThemeResponse = userService.getTheme()
 }

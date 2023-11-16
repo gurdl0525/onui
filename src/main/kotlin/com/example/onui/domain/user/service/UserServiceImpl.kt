@@ -4,6 +4,7 @@ import com.example.onui.domain.user.entity.Theme
 import com.example.onui.domain.user.entity.User
 import com.example.onui.domain.user.exception.AlreadyPostedThemeException
 import com.example.onui.domain.user.exception.ThemeNotFoundException
+import com.example.onui.domain.user.presentation.dto.response.ThemeResponse
 import com.example.onui.domain.user.presentation.dto.response.UserProfileResponse
 import com.example.onui.domain.user.repository.ThemeRepository
 import com.example.onui.domain.user.repository.UserRepository
@@ -66,4 +67,6 @@ class UserServiceImpl(
             )
         ).toResponse()
     }
+
+    override fun getTheme() = ThemeResponse(userFacade.getCurrentUser().theme.id)
 }
