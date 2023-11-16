@@ -26,7 +26,7 @@ class Mission(
     var goal: String = goal
         protected set
 
-    @Column(name = "message", nullable = false, unique = true)
+    @Column(name = "message", nullable = false)
     var message: String = message
         protected set
 

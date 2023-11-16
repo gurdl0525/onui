@@ -3,7 +3,6 @@
 import com.example.onui.domain.mission.entity.AssignMission
 import com.example.onui.domain.mission.entity.Mission
 import com.example.onui.domain.mission.entity.MissionType
-import com.example.onui.domain.mission.exception.AlreadyCreatedMissionException
 import com.example.onui.domain.mission.exception.TypeCoastMissMatchedMissionException
 import com.example.onui.domain.mission.presentation.dto.request.CreateMissionRequest
 import com.example.onui.domain.mission.presentation.dto.response.MissionListResponse
@@ -30,13 +29,12 @@ class MissionServiceImpl(
         userFacade.getAdmin()
 
         if (req.missionType!! == MissionType.ASSIGN && req.coast == null) throw TypeCoastMissMatchedMissionException
-        if (missionRepository.existsByMessage(req.message!!)) throw AlreadyCreatedMissionException
 
         val mission = missionRepository.save(
             Mission(
                 req.name!!,
                 req.goal!!,
-                req.message,
+                req.message!!,
                 req.missionType
             )
         )
