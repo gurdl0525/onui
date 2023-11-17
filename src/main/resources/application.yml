@@ -63,3 +63,6 @@ cloud:
       accessKey: ${IAM_ACCESS}
       secretKey: ${IAM_SECRET}
       region: ap-northeast-2
+
+gpt:
+  secret-key: ${GPT_KEY}

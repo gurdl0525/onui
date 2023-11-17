@@ -2,6 +2,7 @@
 
 import com.example.onui.domain.diary.entity.Diary
 import com.example.onui.domain.diary.exception.DiaryNotFoundException
+import com.example.onui.domain.diary.presentation.request.ChattingWithGPTRequest
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
@@ -10,6 +11,8 @@ import com.example.onui.domain.diary.repository.DiaryRepository
 import com.example.onui.domain.diary.repository.QDiaryRepository
 import com.example.onui.global.common.facade.UserFacade
 import com.example.onui.global.config.error.exception.PermissionDeniedException
+import com.example.onui.infra.feign.gpt.GPTClient
+import com.example.onui.infra.feign.gpt.dto.request.GPTQueryRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,8 +24,14 @@ import java.time.LocalDateTime
 class DiaryServiceImpl(
     private val diaryRepository: DiaryRepository,
     private val userFacade: UserFacade,
-    private val qDiaryRepository: QDiaryRepository
+    private val qDiaryRepository: QDiaryRepository,
+    private val gptClient: GPTClient
 ) : DiaryService {
+
+    private companion object {
+        const val M_SET1 = "너의 이름은 오누이이고 직업은 상담사야.\n아래 리스트는 내가 선택한 감정이야.\n"
+        const val M_SET2 = "내가 하고싶은 말은 다음과 같아.\n"
+    }
 
     @Transactional
     override fun createDiary(req: CreateDiaryRequest): DiaryDetailResponse {
@@ -75,4 +84,7 @@ class DiaryServiceImpl(
 
         return DiaryListResponse(if (diaries.isEmpty()) null else diaries)
     }
+
+    override fun chattingWithGPT(req: ChattingWithGPTRequest): Map<*, *> =
+        gptClient.getGPTQuery(GPTQueryRequest(M_SET1 + req.text!!.toString() + M_SET2 + req.text))
 }

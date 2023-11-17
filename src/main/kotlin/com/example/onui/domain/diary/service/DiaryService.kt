@@ -1,5 +1,6 @@
 ﻿package com.example.onui.domain.diary.service
 
+import com.example.onui.domain.diary.presentation.request.ChattingWithGPTRequest
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
@@ -17,4 +18,6 @@ interface DiaryService {
     fun update(req: UpdateDiaryRequest): DiaryDetailResponse
 
     fun getSevenDaysAgo(): DiaryListResponse
+
+    fun chattingWithGPT(req: ChattingWithGPTRequest): Map<*, *>
 }
