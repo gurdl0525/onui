@@ -17,7 +17,7 @@ class ShopController(
     fun buyTheme(
         @RequestParam("id", required = true)
         id: String
-    ): ShopListResponse = shopService.buy(id)
+    ): ShopAllListResponse = shopService.buy(id)
 
     @GetMapping
     fun getShop(): ShopListResponse = shopService.getShopList()

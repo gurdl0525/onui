@@ -26,7 +26,7 @@ class ShopServiceImpl(
 ) : ShopService {
 
     @Transactional
-    override fun buy(id: String): ShopListResponse {
+    override fun buy(id: String): ShopAllListResponse {
 
         val user = userFacade.getCurrentUser()
 
@@ -48,7 +48,11 @@ class ShopServiceImpl(
             User(user.sub, user.name, user.profileTheme, user.theme, rice, user.id, user.role, user.onFiltering)
         )
 
-        return getShopList(user)
+        return ShopAllListResponse(themeRepository.findAll().map {
+            ShopAllResponse(
+                it.id, it.price, it.price == 0L || boughtThemeRepository.existsById(BoughtTheme.IdClass(it.id, user.id))
+            )
+        }.toMutableList())
     }
 
     override fun getShopList(): ShopListResponse = getShopList(userFacade.getCurrentUser())

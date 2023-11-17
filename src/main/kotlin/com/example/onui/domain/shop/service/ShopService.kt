@@ -5,7 +5,7 @@ import com.example.onui.domain.shop.presentation.dto.response.ShopListResponse
 
 interface ShopService {
 
-    fun buy(id: String): ShopListResponse
+    fun buy(id: String): ShopAllListResponse
 
     fun getShopList(): ShopListResponse
 
