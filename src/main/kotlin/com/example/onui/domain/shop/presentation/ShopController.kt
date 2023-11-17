@@ -1,5 +1,6 @@
 ﻿package com.example.onui.domain.shop.presentation
 
+import com.example.onui.domain.shop.presentation.dto.response.ShopAllListResponse
 import com.example.onui.domain.shop.presentation.dto.response.ShopListResponse
 import com.example.onui.domain.shop.service.ShopService
 import org.springframework.validation.annotation.Validated
@@ -20,4 +21,7 @@ class ShopController(
 
     @GetMapping
     fun getShop(): ShopListResponse = shopService.getShopList()
+
+    @GetMapping("/all")
+    fun getAllShop(): ShopAllListResponse = shopService.getAllShopList()
 }
