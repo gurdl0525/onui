@@ -2,7 +2,7 @@
 
 data class ShopAllResponse(
 
-    val themeId: String,
+    val theme: String,
 
     val price: Long,
 
