@@ -60,12 +60,12 @@ class AnalysisServiceImpl(
 
         val response = moodCount(diaries)
 
-        val sigma = getSigma(response)
+        val sigma = getSigma(response).toInt()
 
         val message = if (sigma < 10) {
             "현재 감정은 완만한 편이에요!"
         } else {
-            "표준편차는 ${sigma.toInt()} 이에요! (10이하가 완만하고 안정적인편)"
+            "표준편차는 $sigma 이에요! (10이하가 완만하고 안정적인편)"
         }
 
         return MonthlyChangeResponse.of(diaries.map { it.toResponse() }.toMutableList(), message)

@@ -1,5 +1,6 @@
 package com.example.onui.domain.auth.presentation
 
+import com.example.onui.domain.auth.presentation.dto.request.OAuthSignInWithAndroidRequest
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.service.AppleAuthService
 import com.example.onui.domain.auth.service.AuthService
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.validation.Valid
 
 @Validated
 @RestController
@@ -28,6 +30,13 @@ class AuthController(
         @RequestParam(name = "token", required = true)
         token: String
     ): TokenResponse = googleAuthService.oauthGoogleSignIn(token)
+
+    @PostMapping("/google/v2")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun oauthSignInWithAndroid(
+        @RequestBody @Valid
+        req: OAuthSignInWithAndroidRequest
+    ): TokenResponse = googleAuthService.oauthGoogleSignInWith(req)
 
     @PutMapping("/re-issue")
     fun reissue(

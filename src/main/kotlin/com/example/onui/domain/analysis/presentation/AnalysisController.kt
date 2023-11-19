@@ -12,9 +12,9 @@ class AnalysisController(private val analysisService: AnalysisService) {
     @GetMapping("/test")
     fun test() = analysisService.test()
 
-    @GetMapping("/mood-change")
+    @GetMapping("/mood")
     fun getMoodChange() = analysisService.getMoodeChange()
 
-    @GetMapping("/monthly-change")
+    @GetMapping("/monthly")
     fun getMonthlyChange() = analysisService.getMonthlyChange()
 }

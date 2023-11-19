@@ -1,5 +1,6 @@
 package com.example.onui.domain.auth.service
 
+import com.example.onui.domain.auth.presentation.dto.request.OAuthSignInWithAndroidRequest
 import com.example.onui.domain.auth.presentation.dto.response.TokenResponse
 import com.example.onui.domain.auth.repository.RefreshTokenRepository
 import com.example.onui.domain.mission.entity.MissionType
@@ -59,6 +60,28 @@ class GoogleAuthServiceImpl(
             User(
                 response.sub,
                 response.name,
+                DEFAULT,
+                themeRepository.findByIdOrNull(DEFAULT_ID)!!
+            )
+        ).apply {
+            missionService.assignMission(this, missionRepository.findAllByMissionType(MissionType.RANDOM))
+        }
+
+        return tokenResponse
+    }
+
+    @Transactional
+    override fun oauthGoogleSignInWith(req: OAuthSignInWithAndroidRequest): TokenResponse {
+        refreshTokenRepository.findBySub(req.sub!!)?.let {
+            refreshTokenRepository.delete(it)
+        }
+
+        val tokenResponse = tokenProvider.receiveToken(req.sub)
+
+        userRepository.findBySub(req.sub) ?: userRepository.save(
+            User(
+                req.sub,
+                req.name!!,
                 DEFAULT,
                 themeRepository.findByIdOrNull(DEFAULT_ID)!!
             )
