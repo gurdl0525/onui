@@ -31,8 +31,8 @@ class DiaryServiceImpl(
 ) : DiaryService {
 
     private companion object {
-        const val M_SET1 = "너의 이름은 오누이이고 직업은 상담사야.\n아래 리스트는 내가 선택한 감정이야.\n"
-        const val M_SET2 = "내가 하고싶은 말은 다음과 같아.\n"
+        const val M_SET = "너의 이름은 오누이이고 직업은 상담사야.\n아래 리스트는 내가 선택한 감정이야.\n"
+        const val M_SET2 = "\n내 감정을 분석하고 솔루션을 제공해줘."
     }
 
     @Transactional
@@ -89,10 +89,9 @@ class DiaryServiceImpl(
 
     override fun chattingWithGPT(req: ChattingWithGPTRequest): ChattingResponse {
         val res = gptClient.getGPTQuery(
-            GPTQueryRequest(arrayOf(Message(M_SET1 + req.text!!.toString() + M_SET2 + req.text)))
+            GPTQueryRequest(arrayOf(Message(M_SET + req.tagList.toString() + M_SET2)))
         )
 
-        return ChattingResponse(res.choice[0].message.content)
+        return ChattingResponse(res.choices[0].message.content)
     }
-
 }
