@@ -16,4 +16,6 @@ interface MissionService {
     fun complete(missionId: UUID): MissionListResponse
 
     fun assignMission(user: User, randomMissions: MutableList<Mission>)
+
+    fun test()
 }

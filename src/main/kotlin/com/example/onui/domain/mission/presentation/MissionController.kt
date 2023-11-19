@@ -22,4 +22,7 @@ class MissionController(
         @RequestBody @Valid
         req: CompleteMissionRequest
     ): MissionListResponse = missionService.complete(req.missionId!!)
+
+    @GetMapping("/test")
+    fun test() {missionService.test()}
 }

@@ -13,6 +13,7 @@ import com.example.onui.global.common.facade.UserFacade
 import com.example.onui.global.config.error.exception.PermissionDeniedException
 import com.example.onui.infra.feign.gpt.GPTClient
 import com.example.onui.infra.feign.gpt.dto.request.GPTQueryRequest
+import com.example.onui.infra.feign.gpt.dto.request.Message
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -86,5 +87,5 @@ class DiaryServiceImpl(
     }
 
     override fun chattingWithGPT(req: ChattingWithGPTRequest): Map<*, *> =
-        gptClient.getGPTQuery(GPTQueryRequest(M_SET1 + req.text!!.toString() + M_SET2 + req.text))
+        gptClient.getGPTQuery(GPTQueryRequest(arrayOf(Message(M_SET1 + req.text!!.toString() + M_SET2 + req.text))))
 }
