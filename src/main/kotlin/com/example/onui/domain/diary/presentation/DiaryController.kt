@@ -1,5 +1,6 @@
 ﻿package com.example.onui.domain.diary.presentation
 
+import com.example.onui.domain.diary.presentation.request.ChattingWithGPTRequest
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
@@ -50,4 +51,10 @@ class DiaryController(
 
     @GetMapping("/ago")
     fun getSevenDaysAgo() = diaryService.getSevenDaysAgo()
+
+    @GetMapping("/chat")
+    fun test(
+        @RequestBody @Valid
+        req: ChattingWithGPTRequest
+    ) = diaryService.chattingWithGPT(req)
 }

@@ -133,4 +133,9 @@ class MissionServiceImpl(
             )
         )
     }
+
+    @Transactional
+    override fun test() {
+      assignMission(userFacade.getCurrentUser(), missionRepository.findAllByMissionType(MissionType.RANDOM))
+    }
 }
