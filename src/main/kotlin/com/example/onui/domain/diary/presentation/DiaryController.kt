@@ -52,7 +52,7 @@ class DiaryController(
     @GetMapping("/ago")
     fun getSevenDaysAgo() = diaryService.getSevenDaysAgo()
 
-    @GetMapping("/chat")
+    @GetMapping("/chatting")
     fun test(
         @RequestBody @Valid
         req: ChattingWithGPTRequest
