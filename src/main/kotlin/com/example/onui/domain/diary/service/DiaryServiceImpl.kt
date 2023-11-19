@@ -5,6 +5,7 @@ import com.example.onui.domain.diary.exception.DiaryNotFoundException
 import com.example.onui.domain.diary.presentation.request.ChattingWithGPTRequest
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
+import com.example.onui.domain.diary.presentation.response.ChattingResponse
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryListResponse
 import com.example.onui.domain.diary.repository.DiaryRepository
@@ -86,6 +87,12 @@ class DiaryServiceImpl(
         return DiaryListResponse(if (diaries.isEmpty()) null else diaries)
     }
 
-    override fun chattingWithGPT(req: ChattingWithGPTRequest): Map<*, *> =
-        gptClient.getGPTQuery(GPTQueryRequest(arrayOf(Message(M_SET1 + req.text!!.toString() + M_SET2 + req.text))))
+    override fun chattingWithGPT(req: ChattingWithGPTRequest): ChattingResponse {
+        val res = gptClient.getGPTQuery(
+            GPTQueryRequest(arrayOf(Message(M_SET1 + req.text!!.toString() + M_SET2 + req.text)))
+        )
+
+        return ChattingResponse(res.choice[0].message.content)
+    }
+
 }

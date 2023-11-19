@@ -2,6 +2,7 @@
 
 import com.example.onui.global.config.feign.GPTFeignConfig
 import com.example.onui.infra.feign.gpt.dto.request.GPTQueryRequest
+import com.example.onui.infra.feign.gpt.dto.response.GPTResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestBody
 interface GPTClient {
 
     @PostMapping(produces = ["application/json"])
-    fun getGPTQuery(@RequestBody req: GPTQueryRequest): Map<*, *>
+    fun getGPTQuery(@RequestBody req: GPTQueryRequest): GPTResponse
 }

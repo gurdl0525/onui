@@ -19,5 +19,5 @@ interface DiaryService {
 
     fun getSevenDaysAgo(): DiaryListResponse
 
-    fun chattingWithGPT(req: ChattingWithGPTRequest): Map<*, *>
+    fun chattingWithGPT(req: ChattingWithGPTRequest): ChattingWithGPTRequest
 }
