@@ -9,7 +9,7 @@ import java.util.*
 @Repository
 interface DiaryRepository : JpaRepository<Diary, UUID?> {
 
-    fun findAllByUserAndYearAndMonthOrderByCreatedAtAsc(user: User, year: Int, month: Int): MutableList<Diary>?
+    fun findAllByUserAndYearAndMonthOrderByCreatedAtAsc(user: User, year: Int, month: Int): MutableList<Diary>
 
     fun findByUserAndYearAndMonthAndDay(user: User, year: Int, month: Int, day: Int): Diary?
 

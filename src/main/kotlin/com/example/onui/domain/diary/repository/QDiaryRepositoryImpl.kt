@@ -25,4 +25,9 @@ class QDiaryRepositoryImpl(
         .orderBy(diary.createdAt.desc())
         .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.now().minusDays(7))))
         .fetch().map { it.toResponse() }.toMutableList()
+
+    override fun findOneMonthAgoByUser(user: User) = queryFactory.selectFrom(diary)
+        .orderBy(diary.createdAt.desc())
+        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.now().minusDays(30L))))
+        .fetch().toMutableList()
 }

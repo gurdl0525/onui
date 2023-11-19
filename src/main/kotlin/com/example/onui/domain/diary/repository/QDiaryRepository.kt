@@ -9,4 +9,6 @@ interface QDiaryRepository {
     fun findThreeDayAgoByUser(user: User): MutableList<Diary>
 
     fun findSevenDayAgoByUser(user: User): MutableList<DiaryResponse>
+
+    fun findOneMonthAgoByUser(user: User): MutableList<Diary>
 }
