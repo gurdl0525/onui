@@ -3,6 +3,7 @@
 import com.example.onui.domain.diary.presentation.request.ChattingWithGPTRequest
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
+import com.example.onui.domain.diary.presentation.response.ChattingResponse
 import com.example.onui.domain.diary.presentation.response.DiaryDetailResponse
 import com.example.onui.domain.diary.presentation.response.DiaryListResponse
 import java.time.LocalDate
@@ -19,5 +20,5 @@ interface DiaryService {
 
     fun getSevenDaysAgo(): DiaryListResponse
 
-    fun chattingWithGPT(req: ChattingWithGPTRequest): ChattingWithGPTRequest
+    fun chattingWithGPT(req: ChattingWithGPTRequest): ChattingResponse
 }
