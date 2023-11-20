@@ -66,3 +66,8 @@ cloud:
 
 gpt:
   secret-key: ${GPT_KEY}
+
+fcm:
+  key:
+    path: onui-fcm.json
+    scope: https://www.googleapis.com/auth/cloud-platform

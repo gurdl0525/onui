@@ -28,4 +28,12 @@ class AuthServiceImpl(
         }
         userRepository.delete(user)
     }
+
+    @Transactional
+    fun applyDeviceToken(token: String) {
+
+        val user = userFacade.getCurrentUser()
+
+        user.applyDeviceToken(token)
+    }
 }

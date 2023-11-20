@@ -74,6 +74,14 @@ class User(
     var boughtTheme: MutableList<BoughtTheme> = arrayListOf()
         protected set
 
+    @ElementCollection
+    var deviceToken: MutableSet<String> = mutableSetOf()
+        protected set
+
+    fun applyDeviceToken(token: String) {
+        this.deviceToken.add(token)
+    }
+
     fun toResponse() = UserProfileResponse(
         this.sub,
         this.name,

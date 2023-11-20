@@ -31,6 +31,9 @@ class AnalysisServiceImpl(
     override fun test() {
 
         val user = userFacade.getCurrentUser()
+
+        diaryRepository.deleteAllByUser(user)
+
         val now = LocalDateTime.now()
 
         var i = now.minusDays(30);
