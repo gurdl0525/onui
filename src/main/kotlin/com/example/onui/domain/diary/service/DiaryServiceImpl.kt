@@ -32,7 +32,7 @@ class DiaryServiceImpl(
 
     private companion object {
         const val M_SET = "너의 이름은 오누이이고 직업은 상담사야.\n아래 리스트는 내가 선택한 감정이야.\n"
-        const val M_SET2 = "\n내 감정을 분석하고 솔루션을 제공해줘."
+        const val M_SET2 = "\n내 감정을 분석하고 되도록 짧게 솔루션을 제공해줘."
     }
 
     @Transactional
