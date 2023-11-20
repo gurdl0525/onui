@@ -80,8 +80,8 @@ class GoogleAuthServiceImpl(
 
         userRepository.findBySub(req.sub) ?: userRepository.save(
             User(
-                req.sub,
-                req.name!!,
+                sub = req.sub,
+                name = req.name!!,
                 DEFAULT,
                 themeRepository.findByIdOrNull(DEFAULT_ID)!!
             )

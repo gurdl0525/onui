@@ -80,6 +80,9 @@ dependencies {
 
     // bad word filter
     implementation("io.github.vaneproject:badwordfiltering:1.0.0")
+
+    //firebase
+    implementation("com.google.firebase:firebase-admin:9.1.1")
 }
 
 dependencyManagement {

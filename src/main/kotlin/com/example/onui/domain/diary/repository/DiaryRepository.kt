@@ -16,4 +16,6 @@ interface DiaryRepository : JpaRepository<Diary, UUID?> {
     fun existsByIdAndIsPosted(id: UUID, isPosted: Boolean): Boolean
 
     fun findByIdAndIsPosted(id: UUID, isPosted: Boolean): Diary?
+
+    fun deleteAllByUser(user: User)
 }
