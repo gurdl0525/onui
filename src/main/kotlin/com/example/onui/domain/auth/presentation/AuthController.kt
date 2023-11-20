@@ -63,4 +63,10 @@ class AuthController(
     fun signOut() {
         authService.signOut()
     }
+
+    @PostMapping("/deviece")
+    fun applyDevieceToken(
+        @RequestParam(name = "token", required = true)
+        token: String
+    ) { authService.applyDeviceToken(token) }
 }

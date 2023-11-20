@@ -30,7 +30,7 @@ class AuthServiceImpl(
     }
 
     @Transactional
-    fun applyDeviceToken(token: String) {
+    override fun applyDeviceToken(token: String) {
 
         val user = userFacade.getCurrentUser()
 
