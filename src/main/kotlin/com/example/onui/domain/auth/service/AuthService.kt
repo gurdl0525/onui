@@ -7,6 +7,6 @@ interface AuthService {
     fun reissue(refreshToken: String): TokenResponse
 
     fun signOut()
-    @Transactional
+
     fun applyDeviceToken(token: String)
 }

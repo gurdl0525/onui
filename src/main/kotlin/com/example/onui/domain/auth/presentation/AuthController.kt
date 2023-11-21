@@ -60,11 +60,9 @@ class AuthController(
         .compact()
 
     @DeleteMapping
-    fun signOut() {
-        authService.signOut()
-    }
+    fun signOut() { authService.signOut() }
 
-    @PostMapping("/deviece")
+    @PostMapping("/device")
     fun applyDevieceToken(
         @RequestParam(name = "token", required = true)
         token: String
