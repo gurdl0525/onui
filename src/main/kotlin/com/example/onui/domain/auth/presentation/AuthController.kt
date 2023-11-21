@@ -66,7 +66,7 @@ class AuthController(
     @PostMapping("/device")
     fun applyDevieceToken(
         @RequestParam(name = "token", required = true)
-        @Valid @NotBlank
-        token: String
-    ) { authService.applyDeviceToken(token) }
+        @Valid @NotBlank(message = "null일 수 없습니다.")
+        token: String?
+    ) { authService.applyDeviceToken(token!!) }
 }
