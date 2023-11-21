@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
 
 @Validated
 @RestController
@@ -65,6 +66,7 @@ class AuthController(
     @PostMapping("/device")
     fun applyDevieceToken(
         @RequestParam(name = "token", required = true)
+        @Valid @NotBlank
         token: String
     ) { authService.applyDeviceToken(token) }
 }
