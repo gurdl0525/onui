@@ -8,42 +8,24 @@ import com.google.firebase.messaging.*
 import mu.KotlinLogging
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.io.IOException
 import java.time.LocalDateTime
 import javax.annotation.PostConstruct
 
 @Service
 class NotificationServiceImpl(
-    private val fcmProperty: FCMProperty
+    private val firebaseMessaging: FirebaseMessaging
 ) : NotificationService {
 
     private companion object {
-        val logger = KotlinLogging.logger {  }
+        val logger = KotlinLogging.logger { }
     }
 
-    @PostConstruct
-    fun init() {
-        try {
-            val options = FirebaseOptions.builder()
-                .setCredentials(
-                    GoogleCredentials
-                        .fromStream(ClassPathResource(fcmProperty.path).getInputStream())
-                        .createScoped(listOf(fcmProperty.scope))
-                )
-                .build()
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options)
-            }
-        } catch (e: IOException) {
-            logger.error{ e.message }
-            throw RuntimeException(e.message)
-        }
-    }
-
-    // 알림 보내기
+    @Transactional
     override fun sendByTokenList(tokenList: MutableSet<String>, title: String, body: String) {
 
-        val messages: MutableList<Message> = tokenList.stream().map {
+        val messages: List<Message> = tokenList.map {
             Message.builder()
                 .putData("time", LocalDateTime.now().toString())
                 .setNotification(Notification.builder().setTitle(title).setBody(body).build())
@@ -51,6 +33,27 @@ class NotificationServiceImpl(
                 .build()
         }.toList()
 
-        FirebaseMessaging.getInstance().sendAll(messages)
+        try {
+            val response: BatchResponse = firebaseMessaging.sendAll(messages)
+
+
+            if ((messages.size - response.successCount) > 0) {
+                val responses: MutableList<SendResponse> = response.responses;
+                val failedTokens: MutableList<String> = mutableListOf()
+
+                var i = 0
+                while (i < responses.size) {
+                    if (!responses[i].isSuccessful) {
+                        failedTokens.add(tokenList.elementAt(i))
+                    }
+                    i += 1
+                }
+                logger.error { "List of tokens are not valid FCM token : $failedTokens" }
+            }
+        } catch (e: FirebaseMessagingException) {
+            logger.error { "cannot send to memberList push message. error info : ${e.message}" }
+        } catch (e: Exception) {
+            logger.error { e.localizedMessage }
+        }
     }
 }

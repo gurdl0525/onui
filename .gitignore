@@ -41,3 +41,6 @@ out/
 
 ### copose ###
 Docker-compose.yml
+
+### onui-fcm.json ###
+onui-fcm.json

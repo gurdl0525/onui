@@ -25,6 +25,6 @@ class MissionScheduling(
 
         val randomMissions = missionRepository.findAllByMissionType(MissionType.RANDOM)
 
-        userRepository.findAll().parallelStream().forEach { missionService.assignMission(it, randomMissions) }
+        userRepository.findAll().forEach { missionService.assignMission(it, randomMissions) }
     }
 }

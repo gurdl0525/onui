@@ -69,5 +69,5 @@ gpt:
 
 fcm:
   key:
-    path: onui-fcm.json
+    path: ${FCM_JSON_PATH}
     scope: https://www.googleapis.com/auth/cloud-platform

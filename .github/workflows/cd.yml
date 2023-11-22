@@ -38,5 +38,5 @@ jobs:
             docker pull ${{ secrets.DOCKER_REPOSITORY }}
             docker stop onui-server
             docker rm onui-server
-            docker run -dp ${{ secrets.HOST_PORT }}:${{ secrets.DOCKER_CONTAINER_PORT }} --name onui-server --env-file .env ${{ secrets.DOCKER_REPOSITORY }}
+            docker run -dp ${{ secrets.HOST_PORT }}:${{ secrets.DOCKER_CONTAINER_PORT }} --name onui-server --env-file .env ${{ secrets.DOCKER_REPOSITORY }} --secret ${{ secrets.FCM_JSON_PATH }}
             docker rmi $(docker images -f "dangling=true" -q)

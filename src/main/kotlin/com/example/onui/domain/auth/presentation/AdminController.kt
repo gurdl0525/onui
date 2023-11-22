@@ -4,6 +4,7 @@ import com.example.onui.domain.mission.presentation.dto.request.CreateMissionReq
 import com.example.onui.domain.mission.presentation.dto.response.MissionResponse
 import com.example.onui.domain.mission.service.MissionService
 import com.example.onui.domain.user.service.UserService
+import com.example.onui.infra.fcm.FCMScheduling
 import com.vane.badwordfiltering.BadWordFiltering
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -16,7 +17,8 @@ import javax.validation.Valid
 class AdminController(
     private val userService: UserService,
     private val missionService: MissionService,
-    private val badWordFiltering: BadWordFiltering
+    private val badWordFiltering: BadWordFiltering,
+    private val fcmScheduling: FCMScheduling
 ) {
 
     @PostMapping("/theme")
@@ -45,4 +47,7 @@ class AdminController(
     ) {
         badWordFiltering.add(text)
     }
+
+    @PostMapping("/fcm")
+    fun postFCM() { fcmScheduling.essentailHost() }
 }
