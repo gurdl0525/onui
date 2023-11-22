@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.regex.Pattern
 
 @Service
 @Transactional(readOnly = true)
@@ -35,9 +34,9 @@ class DiaryServiceImpl(
 ) : DiaryService {
 
     private companion object {
-        const val M_SET = "너의 이름은 오누이이고 직업은 상담사야.\n아래 리스트는 내가 선택한 감정이야.\n"
+        const val M_SET = "내 이름은 %s야. 아래 리스트는 내가 선택한 감정이야.\n"
         const val M_SET2 = "\n내 감정을 분석하고 되도록 짧게 존댓말로 솔루션을 제공해줘."
-        const val REGEX = "https://%s.s3.%s.amazonaws.com/%s([\\w-]+)/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).(png|jpg|jpeg|pdf|svg|HEIC)"
+        const val IMG_REGEX = "https://%s.s3.%s.amazonaws.com/%s([\\w-]+)/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).(png|jpg|jpeg|pdf|svg|HEIC)"
     }
 
     @Transactional
@@ -45,7 +44,7 @@ class DiaryServiceImpl(
 
         val user = userFacade.getCurrentUser()
 
-        if(req.image != null && !REGEX.format(s3Property.bucket, s3Property.region, s3Property.dir).toRegex().matches(req.image))
+        if(req.image != null && !IMG_REGEX.format(s3Property.bucket, s3Property.region, s3Property.dir).toRegex().matches(req.image))
             throw InvalidImageUrlException
 
         val now = LocalDateTime.now()
@@ -98,7 +97,7 @@ class DiaryServiceImpl(
 
     override fun chattingWithGPT(req: ChattingWithGPTRequest): ChattingResponse {
         val res = gptClient.getGPTQuery(
-            GPTQueryRequest(arrayOf(Message(M_SET + req.tagList.toString() + M_SET2)))
+            GPTQueryRequest(arrayOf(Message(M_SET.format(userFacade.getCurrentUser().name) + req.tagList.toString() + M_SET2)))
         )
 
         return ChattingResponse(res.choices[0].message.content)
