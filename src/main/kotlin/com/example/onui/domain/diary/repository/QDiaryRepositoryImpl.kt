@@ -19,17 +19,17 @@ class QDiaryRepositoryImpl(
 
     override fun findThreeDayAgoByUser(user: User) = queryFactory.selectFrom(diary)
         .orderBy(diary.createdAt.desc())
-        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.of(LocalDate.now().minusDays(3), LocalTime.of(0,0,0)))))
+        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.of(0,0,0)))))
         .limit(3)
         .fetch().toMutableList()
 
     override fun findSevenDayAgoByUser(user: User) = queryFactory.selectFrom(diary)
         .orderBy(diary.createdAt.desc())
-        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.of(LocalDate.now().minusDays(7), LocalTime.of(0,0,0)))))
+        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.of(LocalDate.now().minusDays(6), LocalTime.of(0,0,0)))))
         .fetch().map { it.toResponse() }.toMutableList()
 
     override fun findOneMonthAgoByUser(user: User) = queryFactory.selectFrom(diary)
         .orderBy(diary.createdAt.desc())
-        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.of(LocalDate.now().minusDays(30), LocalTime.of(0,0,0)))))
+        .where(diary.user.eq(user).and(diary.createdAt.after(LocalDateTime.of(LocalDate.now().minusDays(29), LocalTime.of(0,0,0)))))
         .fetch().toMutableList()
 }
