@@ -13,6 +13,7 @@ enum class ErrorCode(
     INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "date가 올비르지 않습니다."),
     TYPE_COAST_MISS_MATCHED(HttpStatus.BAD_REQUEST, "type이 ASSIGN일 때 반드시 coast를 설정해야합니다."),
     CAN_NOT_BUY_THEME(HttpStatus.BAD_REQUEST, "쌀이 부족합니다."),
+    INVALID_IMG_URL(HttpStatus.BAD_REQUEST, "잘못된 이미지 URL입니다."),
 
     // 401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),

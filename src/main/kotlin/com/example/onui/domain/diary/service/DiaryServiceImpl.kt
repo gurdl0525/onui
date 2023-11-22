@@ -2,6 +2,7 @@
 
 import com.example.onui.domain.diary.entity.Diary
 import com.example.onui.domain.diary.exception.DiaryNotFoundException
+import com.example.onui.domain.diary.exception.InvalidImageUrlException
 import com.example.onui.domain.diary.presentation.request.ChattingWithGPTRequest
 import com.example.onui.domain.diary.presentation.request.CreateDiaryRequest
 import com.example.onui.domain.diary.presentation.request.UpdateDiaryRequest
@@ -12,6 +13,7 @@ import com.example.onui.domain.diary.repository.DiaryRepository
 import com.example.onui.domain.diary.repository.QDiaryRepository
 import com.example.onui.global.common.facade.UserFacade
 import com.example.onui.global.config.error.exception.PermissionDeniedException
+import com.example.onui.global.env.S3Property
 import com.example.onui.infra.feign.gpt.GPTClient
 import com.example.onui.infra.feign.gpt.dto.request.GPTQueryRequest
 import com.example.onui.infra.feign.gpt.dto.request.Message
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.regex.Pattern
 
 @Service
 @Transactional(readOnly = true)
@@ -27,18 +30,24 @@ class DiaryServiceImpl(
     private val diaryRepository: DiaryRepository,
     private val userFacade: UserFacade,
     private val qDiaryRepository: QDiaryRepository,
-    private val gptClient: GPTClient
+    private val gptClient: GPTClient,
+    private val s3Property: S3Property
 ) : DiaryService {
 
     private companion object {
         const val M_SET = "너의 이름은 오누이이고 직업은 상담사야.\n아래 리스트는 내가 선택한 감정이야.\n"
         const val M_SET2 = "\n내 감정을 분석하고 되도록 짧게 존댓말로 솔루션을 제공해줘."
+        const val REGEX = "https://%s.s3.%s.amazonaws.com/%s([\\w-]+)/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}).(png|jpg|jpeg|pdf|svg|HEIC)"
     }
 
     @Transactional
     override fun createDiary(req: CreateDiaryRequest): DiaryDetailResponse {
 
         val user = userFacade.getCurrentUser()
+
+        if(req.image != null && !REGEX.format(s3Property.bucket, s3Property.region, s3Property.dir).toRegex().matches(req.image))
+            throw InvalidImageUrlException
+
         val now = LocalDateTime.now()
 
         val diary =
@@ -56,9 +65,9 @@ class DiaryServiceImpl(
     }
 
     override fun getDiaryByMonth(year: Int, month: Int) = DiaryListResponse(
-        diaryRepository.findAllByUserAndYearAndMonthOrderByCreatedAtAsc(userFacade.getCurrentUser(), year, month)?.map {
+        diaryRepository.findAllByUserAndYearAndMonthOrderByCreatedAtAsc(userFacade.getCurrentUser(), year, month).map {
             it.toResponse()
-        }?.toMutableList()
+        }.toMutableList()
     )
 
     override fun getDetailById(date: LocalDate): DiaryDetailResponse? = diaryRepository.findByUserAndYearAndMonthAndDay(

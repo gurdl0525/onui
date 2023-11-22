@@ -36,10 +36,7 @@ class ImageServiceImpl(
             this.contentLength = bytes.size.toLong()
         }
 
-        var fileName: String = file.originalFilename ?: file.name
-
-
-        val ext = fileName.split('.').last()
+        val ext = (file.originalFilename ?: file.name).split('.').last()
 
         try {
             FileType.values().first { it.extension == ext }
@@ -47,7 +44,7 @@ class ImageServiceImpl(
             throw InvalidFileExtensionException
         }
 
-        fileName = "${s3Property.dir}$sub/${UUID.randomUUID()}$fileName"
+        val fileName = "${s3Property.dir}$sub/${UUID.randomUUID()}.$ext"
 
         val putObjectRequest = PutObjectRequest(
             s3Property.bucket,
