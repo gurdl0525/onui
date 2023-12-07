@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 import java.util.*
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 @Validated
 @RestController
@@ -22,9 +25,9 @@ class TimelineController(
 
     @GetMapping
     fun getByDate(
-        @RequestParam("idx", required = true) idx: Int = 0,
-        @RequestParam("size", required = true) size: Int = 5,
-        @RequestParam("date", required = true) date: String
+        @RequestParam("idx", required = true) @NotNull idx: Int = 0,
+        @RequestParam("size", required = true) @NotNull @Min(1) size: Int = 5,
+        @RequestParam("date", required = true) @NotBlank date: String
     ) = try {
         timelineService.searchByDate(idx, size, LocalDate.parse(date))
     } catch (e: DateTimeParseException) {
