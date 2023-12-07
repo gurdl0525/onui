@@ -88,7 +88,7 @@ Diary(
 
     fun toFilteringTimelineResponse(badWordFiltering: BadWordFiltering) = TimelineResponse(
         this.id!!,
-        badWordFiltering.change(this.content),
+        this.content?.let { return@let badWordFiltering.change(it) },
         this.mood,
         this.tagList,
         this.image,
